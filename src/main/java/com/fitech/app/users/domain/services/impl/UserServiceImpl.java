@@ -2,6 +2,7 @@ package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.domain.model.UserLoginRequest;
 import com.fitech.app.users.domain.services.PersonService;
 import com.fitech.app.users.domain.services.UserService;
 import com.fitech.app.users.domain.entities.User;
@@ -44,11 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getByUsernameAndPassword(UserDto userDto) {
+    public UserDto getByUsernameAndPassword(UserLoginRequest loginRequest) {
         Optional<User> user = userRepository.
-                findByUsernameAndPassword(userDto.getUsername(), userDto.getPassword());
+                findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
         if(user.isEmpty()) {
-            throw new InvalidPasswordException("Username: " + userDto.getUsername());
+            throw new InvalidPasswordException("Username: " + loginRequest.getUsername());
         }
         return MapperUtil.map(user.get(), UserDto.class);
     }
@@ -68,6 +69,14 @@ public class UserServiceImpl implements UserService {
         }
         return MapperUtil.map(user.get(), UserDto.class);
     }
+
+    public User getUserEntityById(Integer usedId) {
+        Optional<User> existingUser = userRepository.findById(usedId);
+        return existingUser.orElseThrow(() -> new UserNotFoundException("User not found with id: " + usedId));
+    }
+    
+    
+    // Paginated methods
     @Override
     public ResultPage<UserDto> getAll(Pageable paging){
         Page<User> users = userRepository.findAll(paging);
@@ -76,10 +85,4 @@ public class UserServiceImpl implements UserService {
         }
         return PaginationUtil.prepareResultWrapper(users, UserDto.class);
     }
-
-    public User getUserEntityById(Integer usedId) {
-        Optional<User> existingUser = userRepository.findById(usedId);
-        return existingUser.orElseThrow(() -> new UserNotFoundException("User not found with id: " + usedId));
-    }
-    
 }

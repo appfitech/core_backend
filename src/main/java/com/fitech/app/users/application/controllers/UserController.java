@@ -1,8 +1,10 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
+import com.fitech.app.commons.util.PaginationUtil;
 import com.fitech.app.users.application.wrappers.ResultPage;
 import com.fitech.app.users.domain.model.UserDto;
+import com.fitech.app.users.domain.model.UserLoginRequest;
 import com.fitech.app.users.domain.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -27,9 +30,9 @@ public class UserController extends BaseController {
     }
 
     @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
-    public ResponseEntity<UserDto> authenticate(@Valid @RequestBody UserDto userDto){
-        log.info("Login request: " + userDto);
-        userDto = userService.getByUsernameAndPassword(userDto);
+    public ResponseEntity<UserDto> authenticate(@Valid @RequestBody UserLoginRequest loginRequest){
+        log.info("Login request: " + loginRequest);
+        UserDto userDto = userService.getByUsernameAndPassword(loginRequest);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
