@@ -15,6 +15,7 @@ import com.fitech.app.users.application.exception.UserNotFoundException;
 import com.fitech.app.users.application.exception.DuplicatedUserException;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
+import com.fitech.app.users.infrastructure.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +31,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PersonService personService;
+    private final PasswordEncoderUtil passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           PersonService personService) {
+                           PersonService personService,
+                           PasswordEncoderUtil passwordEncoder) {
         this.userRepository = userRepository;
         this.personService = personService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,7 +48,10 @@ public class UserServiceImpl implements UserService {
         validateUserCreation(userDto);
         Person person = personService.save(userDto.getPerson());
         // Create and configure the User entity
-        User user = MapperUtil.map(userDto, User.class);
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setType(userDto.getType());
         user.setPerson(person);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
@@ -171,6 +178,22 @@ public class UserServiceImpl implements UserService {
         user = userRepository.save(user);
         
         // Return the updated user as DTO
+        return MapperUtil.map(user, UserResponseDto.class);
+    }
+
+    @Override
+    public UserResponseDto login(String username, String password) {
+        if (username == null || password == null) {
+            throw new UserNotFoundException("Username and password are required");
+        }
+
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new UserNotFoundException("Invalid username or password"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new UserNotFoundException("Invalid username or password");
+        }
+
         return MapperUtil.map(user, UserResponseDto.class);
     }
 }

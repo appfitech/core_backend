@@ -1,8 +1,12 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
+import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.application.dto.LoginRequestDto;
+import com.fitech.app.users.application.exception.UserNotFoundException;
 import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.domain.entities.User;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
 import com.fitech.app.users.domain.model.UserLoginRequest;
@@ -30,11 +34,14 @@ public class UserController extends BaseController {
         this.userService = userService;
     }
 
-    @PostMapping(value="/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
-    public ResponseEntity<UserResponseDto> authenticate(@Valid @RequestBody UserLoginRequest loginRequest){
-        log.info("Login request: " + loginRequest);
-        UserResponseDto userDto = userService.getByUsernameAndPassword(loginRequest);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    @PostMapping("/login")
+    public ResponseEntity<UserResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
+        try {
+            UserResponseDto userResponseDto = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            return ResponseEntity.ok(userResponseDto);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     @GetMapping(value="/{id}", produces = "application/json")

@@ -19,8 +19,8 @@ public class User {
     @Column(name = "type", nullable = false)
     private Integer type;
 
-    @Size(max = 45)
-    @Column(name = "password", length = 45)
+    @Size(max = 256)
+    @Column(name = "password", length = 256)
     private String password;
     
     @Column(name = "created_at")
@@ -32,7 +32,7 @@ public class User {
     @Column(name = "is_email_verified", nullable = false)
     private Boolean isEmailVerified = false;
 
-    @Column(name = "email_verification_token")
+    @Column(name = "email_verification_token", length = 255)
     private String emailVerificationToken;
 
     @Column(name = "email_token_expires_at")
