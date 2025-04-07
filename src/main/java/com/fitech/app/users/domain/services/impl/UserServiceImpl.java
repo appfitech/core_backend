@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     private void validateUserCreation(UserDto userDto) {
         if (userRepository.existsByUsername(userDto.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
+            throw new DuplicatedUserException("Username already exists");
         }
     }
 
