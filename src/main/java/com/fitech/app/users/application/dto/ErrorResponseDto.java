@@ -18,6 +18,7 @@ public class ErrorResponseDto {
     private String error;
     private String message;
     private String path;
+    private String stackTrace;
     private List<ValidationError> validationErrors;
 
     @Data
