@@ -1,12 +1,14 @@
 package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.MapperUtil;
+import com.fitech.app.commons.util.PaginationUtil;
 import com.fitech.app.users.domain.model.PersonDto;
 import com.fitech.app.users.domain.entities.Person;
 import com.fitech.app.users.application.exception.DuplicatedUserException;
 import com.fitech.app.users.application.exception.UserNotFoundException;
 import com.fitech.app.users.infrastructure.repository.PersonRepository;
 import com.fitech.app.users.domain.services.PersonService;
+import com.fitech.app.users.application.wrappers.ResultPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,19 +39,26 @@ public class PersonServiceImpl implements PersonService {
     }
     @Override
     @Transactional
-    public PersonDto update(Integer id, PersonDto personDto){
+    public PersonDto update(Integer id, PersonDto personDto) {
+        // Get the existing person entity
         Person personEntity = getPersonEntityById(id);
-        // if you have a document number different from actual, 
-        // we need to validate that the new one should not exist
-        if(personDto.hasDifferentDocumentNumber(personEntity.getDocumentNumber()) ){
-            if(findByDocumentNumber(personDto.getDocumentNumber()).isPresent()){
+        
+        // Validate document number if it's being changed
+        if(personDto.hasDifferentDocumentNumber(personEntity.getDocumentNumber())) {
+            if(findByDocumentNumber(personDto.getDocumentNumber()).isPresent()) {
                 throw new DuplicatedUserException("Document Number duplicated for " + personDto.getDocumentNumber());
             }
         }
-        personEntity = MapperUtil.map(personDto, Person.class);
-        personRepository.save(personEntity);
         
-        return MapperUtil.map(personEntity, personDto.getClass());
+        // Map DTO to entity while preserving the ID
+        Person updatedPerson = MapperUtil.map(personDto, Person.class);
+        updatedPerson.setId(id);  // Ensure ID is preserved
+        
+        // Save the updated entity
+        personEntity = personRepository.save(updatedPerson);
+        
+        // Map back to DTO and return
+        return MapperUtil.map(personEntity, PersonDto.class);
     }
     
 
@@ -75,11 +84,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<PersonDto> getAll(Pageable paging){
+    public ResultPage<PersonDto> getAll(Pageable paging){
         Page<Person> personList = personRepository.findAll(paging);
         if(personList.isEmpty()){
             throw new UserNotFoundException("Person does not exists");
         }
-        return personList.map(person -> MapperUtil.map(person, PersonDto.class)).getContent();
+        return PaginationUtil.prepareResultWrapper(personList, PersonDto.class);
     }
 }

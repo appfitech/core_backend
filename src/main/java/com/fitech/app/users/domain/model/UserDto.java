@@ -19,6 +19,9 @@ public class UserDto implements Serializable {
     private String password;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean isEmailVerified;
+    private String emailVerificationToken;
+    private LocalDateTime emailTokenExpiresAt;
     private PersonDto person;
     public UserDto() {
     }
@@ -49,6 +52,9 @@ public class UserDto implements Serializable {
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", isEmailVerified=" + isEmailVerified +
+                ", emailVerificationToken='" + emailVerificationToken + '\'' +
+                ", emailTokenExpiresAt=" + emailTokenExpiresAt +
                 ", person=" + person +
                 '}';
     }
@@ -80,6 +86,31 @@ public class UserDto implements Serializable {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public Boolean getIsEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public void setIsEmailVerified(Boolean isEmailVerified) {
+        this.isEmailVerified = isEmailVerified;
+    }
+
+    public String getEmailVerificationToken() {
+        return emailVerificationToken;
+    }
+
+    public void setEmailVerificationToken(String emailVerificationToken) {
+        this.emailVerificationToken = emailVerificationToken;
+    }
+
+    public LocalDateTime getEmailTokenExpiresAt() {
+        return emailTokenExpiresAt;
+    }
+
+    public void setEmailTokenExpiresAt(LocalDateTime emailTokenExpiresAt) {
+        this.emailTokenExpiresAt = emailTokenExpiresAt;
+    }
+
     public boolean hasDifferentUserName(String username){
         return this.getUsername()!= null && !this.getUsername().equals(username);
     }

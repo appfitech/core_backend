@@ -29,6 +29,15 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "is_email_verified", nullable = false)
+    private Boolean isEmailVerified = false;
+
+    @Column(name = "email_verification_token")
+    private String emailVerificationToken;
+
+    @Column(name = "email_token_expires_at")
+    private LocalDateTime emailTokenExpiresAt;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name =  "person_id")
     private Person person;
@@ -86,5 +95,29 @@ public class User {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Boolean getIsEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public void setIsEmailVerified(Boolean isEmailVerified) {
+        this.isEmailVerified = isEmailVerified;
+    }
+
+    public String getEmailVerificationToken() {
+        return emailVerificationToken;
+    }
+
+    public void setEmailVerificationToken(String emailVerificationToken) {
+        this.emailVerificationToken = emailVerificationToken;
+    }
+
+    public LocalDateTime getEmailTokenExpiresAt() {
+        return emailTokenExpiresAt;
+    }
+
+    public void setEmailTokenExpiresAt(LocalDateTime emailTokenExpiresAt) {
+        this.emailTokenExpiresAt = emailTokenExpiresAt;
     }
 }

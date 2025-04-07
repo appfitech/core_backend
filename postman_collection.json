@@ -1,0 +1,456 @@
+{
+  "info": {
+    "name": "Fitech Users API",
+    "description": "Collection for testing Fitech API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Person Management",
+      "item": [
+        {
+          "name": "Create Person",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/app/person",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "person"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/app/person"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"documentNumber\": \"12345678\",\n  \"phoneNumber\": \"+1234567890\",\n  \"email\": \"john.doe@example.com\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Person",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe Updated\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/app/person/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "person", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe Updated\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe.updated@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/app/person/1"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe Updated\",\n  \"documentNumber\": \"12345678\",\n  \"phoneNumber\": \"+1234567890\",\n  \"email\": \"john.doe.updated@example.com\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Person by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/app/person/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "person", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/v1/app/person/1"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"documentNumber\": \"12345678\",\n  \"phoneNumber\": \"+1234567890\",\n  \"email\": \"john.doe@example.com\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Persons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/app/person?page=1&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "person"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/v1/app/person?page=1&size=20"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"firstName\": \"John\",\n      \"lastName\": \"Doe\",\n      \"documentNumber\": \"12345678\",\n      \"phoneNumber\": \"+1234567890\",\n      \"email\": \"john.doe@example.com\"\n    }\n  ],\n  \"totalItems\": 1,\n  \"totalPages\": 1,\n  \"currentPage\": 1\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"type\": 1,\n  \"person\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/app/user",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "user"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\",\n  \"type\": 1,\n  \"person\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/app/user"
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"username\": \"testuser\",\n  \"type\": 1,\n  \"createdAt\": \"2024-03-20T10:00:00\",\n  \"updatedAt\": \"2024-03-20T10:00:00\",\n  \"isEmailVerified\": false,\n  \"emailVerificationToken\": \"generated-token\",\n  \"emailTokenExpiresAt\": \"2024-03-21T10:00:00\",\n  \"person\": {\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/app/user/verify-email?token={{verification_token}}",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "user", "verify-email"],
+              "query": [
+                {
+                  "key": "token",
+                  "value": "{{verification_token}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/v1/app/user/verify-email?token={{verification_token}}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"username\": \"testuser\",\n  \"type\": 1,\n  \"createdAt\": \"2024-03-20T10:00:00\",\n  \"updatedAt\": \"2024-03-20T10:00:00\",\n  \"isEmailVerified\": true,\n  \"person\": {\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/app/user/login",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "user", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/app/user/login"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"username\": \"testuser\",\n  \"type\": 1,\n  \"createdAt\": \"2024-03-20T10:00:00\",\n  \"updatedAt\": \"2024-03-20T10:00:00\",\n  \"isEmailVerified\": true,\n  \"person\": {\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/app/user/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "user", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/v1/app/user/1"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"username\": \"testuser\",\n  \"type\": 1,\n  \"createdAt\": \"2024-03-20T10:00:00\",\n  \"updatedAt\": \"2024-03-20T10:00:00\",\n  \"isEmailVerified\": true,\n  \"person\": {\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"updateduser\",\n  \"password\": \"newpassword123\",\n  \"type\": 1,\n  \"person\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/app/user/1",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "user", "1"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"updateduser\",\n  \"password\": \"newpassword123\",\n  \"type\": 1,\n  \"person\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/v1/app/user/1"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1,\n  \"username\": \"updateduser\",\n  \"type\": 1,\n  \"createdAt\": \"2024-03-20T10:00:00\",\n  \"updatedAt\": \"2024-03-20T10:30:00\",\n  \"isEmailVerified\": true,\n  \"person\": {\n    \"id\": 1,\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"documentNumber\": \"12345678\",\n    \"phoneNumber\": \"+1234567890\",\n    \"email\": \"john.doe@example.com\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/app/user?page=1&size=20",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "app", "user"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/v1/app/user?page=1&size=20"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"username\": \"testuser\",\n      \"type\": 1,\n      \"createdAt\": \"2024-03-20T10:00:00\",\n      \"updatedAt\": \"2024-03-20T10:00:00\",\n      \"isEmailVerified\": true,\n      \"person\": {\n        \"id\": 1,\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"documentNumber\": \"12345678\",\n        \"phoneNumber\": \"+1234567890\",\n        \"email\": \"john.doe@example.com\"\n      }\n    }\n  ],\n  \"totalItems\": 1,\n  \"totalPages\": 1,\n  \"currentPage\": 1\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "verification_token",
+      "value": "your-verification-token-here"
+    }
+  ]
+} 

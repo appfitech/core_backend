@@ -9,4 +9,3 @@ services:
         MYSQL_ROOT_PASSWORD: 123456789
     volumes:
       - ./db-scripts/mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
-      - ./db-scripts/mysql-data.sql:/docker-entrypoint-initdb.d/mysql-data.sql

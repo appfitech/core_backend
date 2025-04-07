@@ -23,6 +23,9 @@ CREATE TABLE user (
   password VARCHAR(255) NOT NULL,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  is_email_verified BOOLEAN DEFAULT FALSE,
+  email_verification_token VARCHAR(255),
+  email_token_expires_at DATETIME,
   person_id INT,
   type INT DEFAULT 0, -- 0: Cliente, 1: Entrenador, 2: Soporte
   FOREIGN KEY (person_id) REFERENCES person(id),
@@ -80,3 +83,7 @@ CREATE TABLE fitness_evaluations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
+
+
+INSERT INTO user_type (name) VALUES ('user');
+INSERT INTO user_type (name) VALUES ('trainer');
