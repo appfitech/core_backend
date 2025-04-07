@@ -1,0 +1,56 @@
+package com.fitech.app.users.domain.services.impl;
+
+import com.fitech.app.commons.util.MapperUtil;
+import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.domain.entities.UserType;
+import com.fitech.app.users.domain.model.UserTypeDto;
+import com.fitech.app.users.domain.services.UserTypeService;
+import com.fitech.app.users.infrastructure.repository.UserTypeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserTypeServiceImpl implements UserTypeService {
+
+    @Autowired
+    private UserTypeRepository userTypeRepository;
+
+    @Override
+    public UserTypeDto save(UserTypeDto dto) {
+        UserType entity = MapperUtil.map(dto, UserType.class);
+        entity = userTypeRepository.save(entity);
+        return MapperUtil.map(entity, UserTypeDto.class);
+    }
+
+    @Override
+    public UserTypeDto update(Integer id, UserTypeDto dto) {
+        Optional<UserType> optionalEntity = userTypeRepository.findById(id);
+        if (optionalEntity.isPresent()) {
+            UserType entity = optionalEntity.get();
+            MapperUtil.map(dto, entity);
+            entity = userTypeRepository.save(entity);
+            return MapperUtil.map(entity, UserTypeDto.class);
+        }
+        return null;
+    }
+
+    @Override
+    public UserTypeDto getById(Integer id) {
+        Optional<UserType> optionalEntity = userTypeRepository.findById(id);
+        return optionalEntity.map(entity -> MapperUtil.map(entity, UserTypeDto.class)).orElse(null);
+    }
+
+    @Override
+    public ResultPage<UserTypeDto> getAll(Pageable paging) {
+        return PaginationUtil.prepareResultWrapper(userTypeRepository.findAll(paging), UserTypeDto.class);
+    }
+
+    @Override
+    public List<UserTypeDto> getAll() {
+        return MapperUtil.mapAll(userTypeRepository.findAll(), UserTypeDto.class);
+    }
+} 

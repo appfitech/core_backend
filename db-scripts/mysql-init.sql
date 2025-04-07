@@ -3,6 +3,26 @@ CREATE DATABASE fitech;
 USE fitech;
 
 
+create Table user_type (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE metric_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE -- Ej: 'Peso, Masa mulcular, Grasa corporal, IMC, Edad metabólica, Grasa visceral, % de agua, Masa ósea, Frecuencia cardiaca en reposo'
+);
+
+CREATE TABLE fitness_goal_status (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE -- Ej: 'En progreso', 'Completado', 'Cancelado'
+);
+
+CREATE TABLE fitness_goal_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE -- Ej: 'Pérdida de peso', 'Aumento de masa muscular', 'Definición'
+);
+
 CREATE TABLE person (
   id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(125) NOT NULL,
@@ -12,10 +32,6 @@ CREATE TABLE person (
   email VARCHAR(60) NOT NULL
 );
 
-create Table user_type (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
-);
 
 CREATE TABLE user (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,58 +48,68 @@ CREATE TABLE user (
   FOREIGN KEY (type) REFERENCES user_type(id)
 );
 
-CREATE TABLE user_fitness_metrics (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    weight DECIMAL(5,2) NOT NULL,  -- Peso en kg
-    height DECIMAL(5,2) NOT NULL,  -- Altura en cm
-    body_fat_percentage DECIMAL(5,2), -- % de grasa corporal
-    muscle_mass DECIMAL(5,2), -- Masa muscular en kg
-    bmi DECIMAL(5,2) GENERATED ALWAYS AS (weight / (height / 100 * height / 100)) STORED, -- IMC calculado automáticamente
-    metabolic_age INT, -- Edad metabólica
-    visceral_fat_level DECIMAL(5,2), -- Nivel de grasa visceral
-    water_percentage DECIMAL(5,2), -- % de agua en el cuerpo
-    bone_mass DECIMAL(5,2), -- Masa ósea en kg
-    heart_rate_resting INT, -- Frecuencia cardiaca en reposo
-    evaluation_date DATE NOT NULL, -- Fecha de la evaluación
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id)
-);
+-- Objetivos de fitness
 
-CREATE TABLE fitness_goals (
+CREATE TABLE fitness_goal (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    goal_type ENUM('weight_loss', 'muscle_gain', 'maintenance', 'other') NOT NULL,
-    target_weight DECIMAL(5,2), -- Peso objetivo en kg
-    target_body_fat DECIMAL(5,2), -- % de grasa corporal objetivo
-    target_muscle_mass DECIMAL(5,2), -- Masa muscular objetivo en kg
+    name VARCHAR(125) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE,
-    status ENUM('active', 'completed', 'cancelled') DEFAULT 'active',
+    note TEXT, -- Notas adicionales sobre el objetivo
+    goal_type_id INT,
+    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    FOREIGN KEY (goal_type_id) REFERENCES fitness_goal_type(id)
 );
 
-CREATE TABLE user_progress_photos (
+CREATE TABLE fitness_goal_detail (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    photo_url VARCHAR(500) NOT NULL, -- URL de la foto almacenada en S3 u otro servicio
-    taken_at DATE NOT NULL, -- Fecha en que se tomó la foto
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+    fitness_goal_id INT NOT NULL, -- Referencia al objetivo de fitness
+    metric_type_id INT NOT NULL,  -- Referencia al tipo de métrica (peso, masa muscular, etc.)
+    target_value DECIMAL(10, 2) NOT NULL,  -- Valor objetivo para esta métrica
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (fitness_goal_id) REFERENCES fitness_goal(id),
+    FOREIGN KEY (metric_type_id) REFERENCES metric_types(id)
+);
+
+CREATE TABLE user_fitness_goals (
+    id INT PRIMARY KEY, 
+    target_date DATE NOT NULL, 
+    note TEXT, 
+    trainer_id INT,
+    fitness_goal_id INT, -- Referencia al Id del objetivo
+    goal_status_id INT, -- Estado del objetivo
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (fitness_goal_id) REFERENCES fitness_goal(id),
+    FOREIGN KEY (trainer_id) REFERENCES user(id),
+    FOREIGN KEY (goal_status_id) REFERENCES fitness_goal_status(id)
 );
 
 
-CREATE TABLE fitness_evaluations (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    evaluator_id INT, -- ID del entrenador o nutricionista que realizó la evaluación
-    notes TEXT, -- Comentarios sobre la evaluación
-    evaluation_date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
-);
 
 
-INSERT INTO user_type (name) VALUES ('user');
-INSERT INTO user_type (name) VALUES ('trainer');
+-- Insertar datos en la tabla user_type
+INSERT INTO user_type (name) VALUES ('Usuario');
+INSERT INTO user_type (name) VALUES ('Entrenador');
+INSERT INTO user_type (name) VALUES ('Soporte');
+
+-- Insertar datos en la tabla metric_types
+INSERT INTO metric_types (name) VALUES ('Peso');
+INSERT INTO metric_types (name) VALUES ('Masa muscular');
+INSERT INTO metric_types (name) VALUES ('Grasa corporal');
+INSERT INTO metric_types (name) VALUES ('IMC');
+INSERT INTO metric_types (name) VALUES ('Edad metabólica');
+INSERT INTO metric_types (name) VALUES ('Grasa visceral');
+INSERT INTO metric_types (name) VALUES ('% de agua');
+INSERT INTO metric_types (name) VALUES ('Masa ósea');
+INSERT INTO metric_types (name) VALUES ('Frecuencia cardiaca en reposo');
+
+-- Insertar datos en la tabla fitness_goal_status
+INSERT INTO fitness_goal_status (name) VALUES ('En progreso');
+INSERT INTO fitness_goal_status (name) VALUES ('Completado');
+INSERT INTO fitness_goal_status (name) VALUES ('Cancelado');
+
+-- Insertar datos en la tabla fitness_goal_type
+INSERT INTO fitness_goal_type (name) VALUES ('Pérdida de peso');
+INSERT INTO fitness_goal_type (name) VALUES ('Aumento de masa muscular');
+INSERT INTO fitness_goal_type (name) VALUES ('Definición');
