@@ -21,9 +21,18 @@ public class UserTypeServiceImpl implements UserTypeService {
 
     @Override
     public UserTypeDto save(UserTypeDto dto) {
-        UserType entity = MapperUtil.map(dto, UserType.class);
-        entity = userTypeRepository.save(entity);
-        return MapperUtil.map(entity, UserTypeDto.class);
+        validateUserTypeCreation(dto);
+        UserType entity = createUserTypeEntity(dto);
+        UserType savedEntity = userTypeRepository.save(entity);
+        return MapperUtil.map(savedEntity, UserTypeDto.class);
+    }
+
+    private void validateUserTypeCreation(UserTypeDto dto) {
+        // Add any validation logic here if needed
+    }
+
+    private UserType createUserTypeEntity(UserTypeDto dto) {
+        return MapperUtil.map(dto, UserType.class);
     }
 
     @Override

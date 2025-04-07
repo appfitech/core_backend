@@ -22,9 +22,18 @@ public class MetricTypeServiceImpl implements MetricTypeService {
 
     @Override
     public MetricTypeDto save(MetricTypeDto dto) {
-        MetricType entity = MapperUtil.map(dto, MetricType.class);
-        entity = metricTypeRepository.save(entity);
-        return MapperUtil.map(entity, MetricTypeDto.class);
+        validateMetricTypeCreation(dto);
+        MetricType entity = createMetricTypeEntity(dto);
+        MetricType savedEntity = metricTypeRepository.save(entity);
+        return MapperUtil.map(savedEntity, MetricTypeDto.class);
+    }
+
+    private void validateMetricTypeCreation(MetricTypeDto dto) {
+        // Add any validation logic here if needed
+    }
+
+    private MetricType createMetricTypeEntity(MetricTypeDto dto) {
+        return MapperUtil.map(dto, MetricType.class);
     }
 
     @Override

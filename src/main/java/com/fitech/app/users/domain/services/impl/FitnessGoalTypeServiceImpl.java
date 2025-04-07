@@ -23,9 +23,18 @@ public class FitnessGoalTypeServiceImpl implements FitnessGoalTypeService {
 
     @Override
     public FitnessGoalTypeDto save(FitnessGoalTypeDto dto) {
-        FitnessGoalType entity = MapperUtil.map(dto, FitnessGoalType.class);
-        entity = fitnessGoalTypeRepository.save(entity);
-        return MapperUtil.map(entity, FitnessGoalTypeDto.class);
+        validateFitnessGoalTypeCreation(dto);
+        FitnessGoalType entity = createFitnessGoalTypeEntity(dto);
+        FitnessGoalType savedEntity = fitnessGoalTypeRepository.save(entity);
+        return MapperUtil.map(savedEntity, FitnessGoalTypeDto.class);
+    }
+
+    private void validateFitnessGoalTypeCreation(FitnessGoalTypeDto dto) {
+        // Add any validation logic here if needed
+    }
+
+    private FitnessGoalType createFitnessGoalTypeEntity(FitnessGoalTypeDto dto) {
+        return MapperUtil.map(dto, FitnessGoalType.class);
     }
 
     @Override

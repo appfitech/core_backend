@@ -22,9 +22,18 @@ public class FitnessGoalStatusServiceImpl implements FitnessGoalStatusService {
 
     @Override
     public FitnessGoalStatusDto save(FitnessGoalStatusDto dto) {
-        FitnessGoalStatus entity = MapperUtil.map(dto, FitnessGoalStatus.class);
-        entity = fitnessGoalStatusRepository.save(entity);
-        return MapperUtil.map(entity, FitnessGoalStatusDto.class);
+        validateFitnessGoalStatusCreation(dto);
+        FitnessGoalStatus entity = createFitnessGoalStatusEntity(dto);
+        FitnessGoalStatus savedEntity = fitnessGoalStatusRepository.save(entity);
+        return MapperUtil.map(savedEntity, FitnessGoalStatusDto.class);
+    }
+
+    private void validateFitnessGoalStatusCreation(FitnessGoalStatusDto dto) {
+        // Add any validation logic here if needed
+    }
+
+    private FitnessGoalStatus createFitnessGoalStatusEntity(FitnessGoalStatusDto dto) {
+        return MapperUtil.map(dto, FitnessGoalStatus.class);
     }
 
     @Override

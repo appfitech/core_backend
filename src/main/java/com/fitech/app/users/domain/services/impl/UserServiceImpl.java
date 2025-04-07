@@ -2,6 +2,7 @@ package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.domain.entities.Person;
 import com.fitech.app.users.domain.model.PersonDto;
 import com.fitech.app.users.domain.model.UserLoginRequest;
 import com.fitech.app.users.domain.services.PersonService;
@@ -40,59 +41,67 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto save(UserDto userDto) {
-        if (userRepository.existsByUsername(userDto.getUsername())) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-
-        PersonDto savedPerson = personService.save(userDto.getPerson());
-        userDto.setPerson(savedPerson);
-
+        validateUserCreation(userDto);
+        Person person = personService.save(userDto.getPerson());
+        // Create and configure the User entity
         User user = MapperUtil.map(userDto, User.class);
+        user.setPerson(person);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
-        
-        // Generate and set verification token
         generateVerificationToken(user);
         
         User savedUser = userRepository.save(user);
         return MapperUtil.map(savedUser, UserDto.class);
     }
 
+    private void validateUserCreation(UserDto userDto) {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+    }
+
     private void generateVerificationToken(User user) {
-        // Generate a random UUID as the verification token
         String token = UUID.randomUUID().toString();
         user.setEmailVerificationToken(token);
-        
-        // Set token expiration to 24 hours from now
         user.setEmailTokenExpiresAt(LocalDateTime.now().plusHours(24));
-        
-        // Set email verification status to false
         user.setIsEmailVerified(false);
     }
 
     @Override
     @Transactional
     public UserDto update(Integer id, UserDto userDto) {
-        // Get the existing user entity
+        validateUserUpdate(id, userDto);
+        User user = updateUserEntity(id, userDto);
+        User savedUser = userRepository.save(user);
+        return MapperUtil.map(savedUser, UserDto.class);
+    }
+
+    private void validateUserUpdate(Integer id, UserDto userDto) {
         User existingUser = getUserEntityById(id);
         
-        // Validate username if it's being changed
         if (userDto.hasDifferentUserName(existingUser.getUsername())) {
             if (usernameAlreadyExistsByOrgId(userDto.getUsername(), null)) {
                 throw new DuplicatedUserException("Username already exists: " + userDto.getUsername());
             }
         }
+    }
+
+    private User updateUserEntity(Integer id, UserDto userDto) {
+        // Get the existing user entity
+        User existingUser = getUserEntityById(id);
         
-        // Map DTO to entity while preserving the ID
-        User updatedUser = MapperUtil.map(userDto, User.class);
-        updatedUser.setId(id);  // Ensure ID is preserved
-        updatedUser.setUpdatedAt(LocalDateTime.now());
+        // Update the Person entity if needed
+        if (userDto.getPerson() != null) {
+            PersonDto updatedPerson = personService.update(existingUser.getPerson().getId(), userDto.getPerson());
+            existingUser.setPerson(MapperUtil.map(updatedPerson, Person.class));
+        }
         
-        // Save the updated entity
-        updatedUser = userRepository.save(updatedUser);
+        // Map the DTO to the existing entity
+        MapperUtil.map(userDto, existingUser);
+        existingUser.setId(id);  // Ensure ID is preserved
+        existingUser.setUpdatedAt(LocalDateTime.now());
         
-        // Map back to DTO and return
-        return MapperUtil.map(updatedUser, UserDto.class);
+        return existingUser;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
+import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
 import com.fitech.app.users.application.wrappers.ResultPage;
 import com.fitech.app.users.domain.model.PersonDto;
@@ -32,7 +33,7 @@ public class PersonController extends BaseController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     public ResponseEntity<PersonDto> save(@Valid @RequestBody PersonDto personDto) {
         log.info("Creating person: " + personDto);
-        personDto = personService.save(personDto);
+        personDto = MapperUtil.map(personService.save(personDto), PersonDto.class);
         return new ResponseEntity<>(personDto, HttpStatus.CREATED);
     }
 

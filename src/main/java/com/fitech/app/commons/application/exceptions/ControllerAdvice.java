@@ -28,8 +28,8 @@ public class ControllerAdvice {
     public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
         log.info(ex.getMessage());
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("Internal error", "Please contact support");
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+        errorResponse.put("Internal error", ex.getMessage() + ex.getCause().getMessage());
+        return new ResponseEntity<>(  errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Map<String, String>> validationExceptions(Exception ex) {

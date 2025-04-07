@@ -43,7 +43,7 @@ public class UserController extends BaseController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto){
         userDto = userService.save(userDto);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);

@@ -43,4 +43,5 @@ public class UserTypeController {
     public ResponseEntity<List<UserTypeDto>> getAll() {
         return ResponseEntity.ok(userTypeService.getAll());
     }
+    
 } 

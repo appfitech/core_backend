@@ -29,14 +29,22 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     @Transactional
-    public PersonDto save(PersonDto personDto) {
-        Person person = MapperUtil.map(personDto, Person.class);
-        if(personRepository.findByDocumentNumber(person.getDocumentNumber()).isPresent()){
+    public Person save(PersonDto personDto) {
+        validatePersonCreation(personDto);
+        Person person = createPersonEntity(personDto);
+        return personRepository.save(person);
+    }
+
+    private void validatePersonCreation(PersonDto personDto) {
+        if (personRepository.findByDocumentNumber(personDto.getDocumentNumber()).isPresent()) {
             throw new DuplicatedUserException("Document number duplicated for " + personDto.getDocumentNumber());
         }
-        person = personRepository.save(person);
-        return MapperUtil.map(person, PersonDto.class);
     }
+
+    private Person createPersonEntity(PersonDto personDto) {
+        return MapperUtil.map(personDto, Person.class);
+    }
+
     @Override
     @Transactional
     public PersonDto update(Integer id, PersonDto personDto) {
