@@ -1,7 +1,9 @@
 {
   "info": {
+    "_postman_id": "37eeee3d-2e8a-4b71-aa6d-0aaa1a7f64bb",
     "name": "Fitech API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "116859"
   },
   "item": [
     {
@@ -9,6 +11,21 @@
       "item": [
         {
           "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "pm.variables.set(\"auth_token\", jsonData.token);",
+                  "console.log(\"Auth token set: \" + jsonData.token);",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -19,27 +36,21 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"Password123!\"\n}"
+              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/auth/login",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/auth/login",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "auth", "login"]
-            },
-            "event": [
-              {
-                "listen": "test",
-                "script": {
-                  "type": "text/javascript",
-                  "exec": [
-                    "var jsonData = pm.response.json();",
-                    "pm.variables.set(\"auth_token\", \"Bearer \" + jsonData.token);",
-                    "console.log(\"Auth token set: \" + jsonData.token);"
-                  ]
-                }
-              }
-            ]
+              "path": [
+                "v1",
+                "app",
+                "auth",
+                "login"
+              ]
+            }
           },
           "response": [
             {
@@ -54,18 +65,23 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"Password123!\"\n}"
+                  "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}"
+                },
+                "url": {
+                  "raw": ""
                 }
               },
               "status": "OK",
               "code": 200,
+              "_postman_previewlanguage": "Text",
               "header": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiJ9...\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"testuser\",\n        \"type\": 1,\n        \"createdAt\": [2025,4,7,18,49,59],\n        \"updatedAt\": [2025,4,7,18,49,59],\n        \"isEmailVerified\": false,\n        \"person\": {\n            \"id\": 1,\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"documentNumber\": \"12345678A\",\n            \"phoneNumber\": \"123456789\",\n            \"email\": \"john.doe@example.com\"\n        }\n    }\n}"
+              "cookie": [],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiJ9...\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"admin\",\n        \"type\": 1,\n        \"createdAt\": [2025,4,7,18,49,59],\n        \"updatedAt\": [2025,4,7,18,49,59],\n        \"isEmailVerified\": false,\n        \"person\": {\n            \"id\": 1,\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"documentNumber\": \"12345678A\",\n            \"phoneNumber\": \"123456789\",\n            \"email\": \"john.doe@example.com\"\n        }\n    }\n}"
             }
           ]
         }
@@ -86,15 +102,22 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"Password123!\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"123456789\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
+              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"123456789\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/user",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user"]
+              "path": [
+                "v1",
+                "app",
+                "user"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Users",
@@ -107,10 +130,16 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/user?page=1&size=20",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user?page=1&size=20",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user"],
+              "path": [
+                "v1",
+                "app",
+                "user"
+              ],
               "query": [
                 {
                   "key": "page",
@@ -122,7 +151,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get User by ID",
@@ -135,12 +165,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/user/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user", "1"]
+              "path": [
+                "v1",
+                "app",
+                "user",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update User",
@@ -158,15 +196,23 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"NewPassword123!\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"987654321\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
+              "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"Newadmin\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"987654321\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/user/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user", "1"]
+              "path": [
+                "v1",
+                "app",
+                "user",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Verify Email",
@@ -179,10 +225,17 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/user/verify-email?token=your-verification-token",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user/verify-email?token=your-verification-token",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user", "verify-email"],
+              "path": [
+                "v1",
+                "app",
+                "user",
+                "verify-email"
+              ],
               "query": [
                 {
                   "key": "token",
@@ -190,7 +243,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -216,12 +270,19 @@
               "raw": "{\n    \"name\": \"Premium User\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/user-type",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user-type",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user-type"]
+              "path": [
+                "v1",
+                "app",
+                "user-type"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All User Types",
@@ -234,12 +295,19 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/user-type",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user-type",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user-type"]
+              "path": [
+                "v1",
+                "app",
+                "user-type"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get User Type by ID",
@@ -252,12 +320,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/user-type/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user-type/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user-type", "1"]
+              "path": [
+                "v1",
+                "app",
+                "user-type",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update User Type",
@@ -278,12 +354,20 @@
               "raw": "{\n    \"name\": \"Updated User Type\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/user-type/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user-type/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user-type", "1"]
+              "path": [
+                "v1",
+                "app",
+                "user-type",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All User Types (No Pagination)",
@@ -296,12 +380,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/user-type/all",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/user-type/all",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "user-type", "all"]
+              "path": [
+                "v1",
+                "app",
+                "user-type",
+                "all"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -327,12 +419,19 @@
               "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"123456789\",\n    \"documentNumber\": \"12345678A\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/person",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/person",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "person"]
+              "path": [
+                "v1",
+                "app",
+                "person"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Persons",
@@ -345,10 +444,16 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/person?page=1&size=20",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/person?page=1&size=20",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "person"],
+              "path": [
+                "v1",
+                "app",
+                "person"
+              ],
               "query": [
                 {
                   "key": "page",
@@ -360,7 +465,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get Person by ID",
@@ -373,12 +479,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/person/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/person/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "person", "1"]
+              "path": [
+                "v1",
+                "app",
+                "person",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update Person",
@@ -399,12 +513,20 @@
               "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"987654321\",\n    \"documentNumber\": \"12345678A\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/person/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/person/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "person", "1"]
+              "path": [
+                "v1",
+                "app",
+                "person",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -430,12 +552,19 @@
               "raw": "{\n    \"name\": \"Weight Loss\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-type",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-type",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-type"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-type"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Fitness Goal Types",
@@ -448,12 +577,19 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-type",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-type",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-type"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-type"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get Fitness Goal Type by ID",
@@ -466,12 +602,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-type/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-type/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-type", "1"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-type",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update Fitness Goal Type",
@@ -492,12 +636,20 @@
               "raw": "{\n    \"name\": \"Updated Goal Type\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-type/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-type/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-type", "1"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-type",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Fitness Goal Types (No Pagination)",
@@ -510,12 +662,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-type/all",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-type/all",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-type", "all"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-type",
+                "all"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -541,12 +701,19 @@
               "raw": "{\n    \"name\": \"In Progress\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-status",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-status",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-status"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-status"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Fitness Goal Status",
@@ -559,12 +726,19 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-status",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-status",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-status"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-status"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get Fitness Goal Status by ID",
@@ -577,12 +751,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-status/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-status/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-status", "1"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-status",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update Fitness Goal Status",
@@ -603,12 +785,20 @@
               "raw": "{\n    \"name\": \"Updated Status\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-status/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-status/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-status", "1"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-status",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Fitness Goal Status (No Pagination)",
@@ -621,12 +811,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/fitness-goal-status/all",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/fitness-goal-status/all",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "fitness-goal-status", "all"]
+              "path": [
+                "v1",
+                "app",
+                "fitness-goal-status",
+                "all"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -652,12 +850,19 @@
               "raw": "{\n    \"name\": \"Weight\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/metric-type",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "metric-type"]
+              "path": [
+                "v1",
+                "app",
+                "metric-type"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Metric Types",
@@ -670,12 +875,19 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/metric-type",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "metric-type"]
+              "path": [
+                "v1",
+                "app",
+                "metric-type"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get Metric Type by ID",
@@ -688,12 +900,20 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/metric-type/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "metric-type", "1"]
+              "path": [
+                "v1",
+                "app",
+                "metric-type",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update Metric Type",
@@ -714,12 +934,20 @@
               "raw": "{\n    \"name\": \"Updated Metric Type\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type/1",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/metric-type/1",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "metric-type", "1"]
+              "path": [
+                "v1",
+                "app",
+                "metric-type",
+                "1"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get All Metric Types (No Pagination)",
@@ -732,23 +960,54 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type/all",
-              "host": ["localhost"],
+              "raw": "localhost:8081/v1/app/metric-type/all",
+              "host": [
+                "localhost"
+              ],
               "port": "8081",
-              "path": ["v1", "app", "metric-type", "all"]
+              "path": [
+                "v1",
+                "app",
+                "metric-type",
+                "all"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
     }
   ],
-  "variable": [
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
     {
-      "key": "auth_token",
-      "value": "",
-      "type": "string"
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }
-
-

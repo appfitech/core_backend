@@ -41,7 +41,7 @@ public class FitnessGoalStatusServiceImpl implements FitnessGoalStatusService {
         Optional<FitnessGoalStatus> optionalEntity = fitnessGoalStatusRepository.findById(id);
         if (optionalEntity.isPresent()) {
             FitnessGoalStatus entity = optionalEntity.get();
-            MapperUtil.map(dto, entity);
+            entity.setName(dto.getName());
             entity = fitnessGoalStatusRepository.save(entity);
             return MapperUtil.map(entity, FitnessGoalStatusDto.class);
         }

@@ -41,7 +41,7 @@ public class MetricTypeServiceImpl implements MetricTypeService {
         Optional<MetricType> optionalEntity = metricTypeRepository.findById(id);
         if (optionalEntity.isPresent()) {
             MetricType entity = optionalEntity.get();
-            MapperUtil.map(dto, entity);
+            entity.setName(dto.getName());
             entity = metricTypeRepository.save(entity);
             return MapperUtil.map(entity, MetricTypeDto.class);
         }

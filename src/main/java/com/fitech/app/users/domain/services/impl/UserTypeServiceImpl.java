@@ -40,7 +40,7 @@ public class UserTypeServiceImpl implements UserTypeService {
         Optional<UserType> optionalEntity = userTypeRepository.findById(id);
         if (optionalEntity.isPresent()) {
             UserType entity = optionalEntity.get();
-            MapperUtil.map(dto, entity);
+            entity.setName(dto.getName());
             entity = userTypeRepository.save(entity);
             return MapperUtil.map(entity, UserTypeDto.class);
         }
