@@ -2,6 +2,7 @@ package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.application.dto.LoginResponseDto;
 import com.fitech.app.users.domain.entities.Person;
 import com.fitech.app.users.domain.model.PersonDto;
 import com.fitech.app.users.domain.model.UserLoginRequest;
@@ -15,6 +16,7 @@ import com.fitech.app.users.application.exception.UserNotFoundException;
 import com.fitech.app.users.application.exception.DuplicatedUserException;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
+import com.fitech.app.users.infrastructure.security.JwtTokenProvider;
 import com.fitech.app.users.infrastructure.utils.PasswordEncoderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,14 +34,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PersonService personService;
     private final PasswordEncoderUtil passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            PersonService personService,
-                           PasswordEncoderUtil passwordEncoder) {
+                           PasswordEncoderUtil passwordEncoder,
+                           JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.personService = personService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -182,7 +187,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto login(String username, String password) {
+    public LoginResponseDto login(String username, String password) {
         if (username == null || password == null) {
             throw new UserNotFoundException("Username and password are required");
         }
@@ -194,6 +199,12 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("Invalid username or password");
         }
 
-        return MapperUtil.map(user, UserResponseDto.class);
+        String token = jwtTokenProvider.generateToken(username);
+        
+        LoginResponseDto response = new LoginResponseDto();
+        response.setToken(token);
+        response.setUser(MapperUtil.map(user, UserResponseDto.class));
+        
+        return response;
     }
 }

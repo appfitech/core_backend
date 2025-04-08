@@ -1,13 +1,78 @@
 {
   "info": {
-    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "name": "Fitech Users API",
-    "description": "API collection for Fitech Users Management System",
+    "name": "Fitech API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "User Management",
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"Password123!\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/auth/login",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "auth", "login"]
+            },
+            "event": [
+              {
+                "listen": "test",
+                "script": {
+                  "type": "text/javascript",
+                  "exec": [
+                    "var jsonData = pm.response.json();",
+                    "pm.variables.set(\"auth_token\", \"Bearer \" + jsonData.token);",
+                    "console.log(\"Auth token set: \" + jsonData.token);"
+                  ]
+                }
+              }
+            ]
+          },
+          "response": [
+            {
+              "name": "Login Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"Password123!\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n    \"token\": \"eyJhbGciOiJIUzUxMiJ9...\",\n    \"user\": {\n        \"id\": 1,\n        \"username\": \"testuser\",\n        \"type\": 1,\n        \"createdAt\": [2025,4,7,18,49,59],\n        \"updatedAt\": [2025,4,7,18,49,59],\n        \"isEmailVerified\": false,\n        \"person\": {\n            \"id\": 1,\n            \"firstName\": \"John\",\n            \"lastName\": \"Doe\",\n            \"documentNumber\": \"12345678A\",\n            \"phoneNumber\": \"123456789\",\n            \"email\": \"john.doe@example.com\"\n        }\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
       "item": [
         {
           "name": "Create User",
@@ -24,51 +89,38 @@
               "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"Password123!\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"123456789\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/user",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user"]
             }
           }
         },
         {
-          "name": "Login",
+          "name": "Get All Users",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}"
-            },
             "url": {
-              "raw": "{{base_url}}/v1/app/user/login",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "user", "login"]
-            }
-          }
-        },
-        {
-          "name": "Verify Email",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"token\": \"{{verification_token}}\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/app/user/verify-email",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "user", "verify-email"]
+              "raw": "http://localhost:8081/v1/app/user?page=1&size=20",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "user"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
             }
           }
         },
@@ -78,13 +130,14 @@
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/user/1",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user/1",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user", "1"]
             }
           }
@@ -97,45 +150,43 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"updateduser\",\n    \"password\": \"NewPassword123!\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"987654321\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
+              "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"NewPassword123!\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"987654321\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/user/1",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user/1",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user", "1"]
             }
           }
         },
         {
-          "name": "Get All Users",
+          "name": "Verify Email",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/user?page=0&size=10&sort=id,asc",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "user"],
+              "raw": "http://localhost:8081/v1/app/user/verify-email?token=your-verification-token",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "user", "verify-email"],
               "query": [
                 {
-                  "key": "page",
-                  "value": "0"
-                },
-                {
-                  "key": "size",
-                  "value": "10"
-                },
-                {
-                  "key": "sort",
-                  "value": "id,asc"
+                  "key": "token",
+                  "value": "your-verification-token"
                 }
               ]
             }
@@ -154,6 +205,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
@@ -161,8 +216,27 @@
               "raw": "{\n    \"name\": \"Premium User\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/user-type",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user-type",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "user-type"]
+            }
+          }
+        },
+        {
+          "name": "Get All User Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/user-type",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user-type"]
             }
           }
@@ -173,13 +247,14 @@
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/user-type/1",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user-type/1",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user-type", "1"]
             }
           }
@@ -192,47 +267,21 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Premium Plus User\"\n}"
+              "raw": "{\n    \"name\": \"Updated User Type\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/user-type/1",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user-type/1",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user-type", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get All User Types",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/v1/app/user-type?page=0&size=10&sort=id,asc",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "user-type"],
-              "query": [
-                {
-                  "key": "page",
-                  "value": "0"
-                },
-                {
-                  "key": "size",
-                  "value": "10"
-                },
-                {
-                  "key": "sort",
-                  "value": "id,asc"
-                }
-              ]
             }
           }
         },
@@ -242,13 +291,14 @@
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/user-type/all",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/user-type/all",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "user-type", "all"]
             }
           }
@@ -256,224 +306,103 @@
       ]
     },
     {
-      "name": "Metric Types",
+      "name": "Persons",
       "item": [
         {
-          "name": "Create Metric Type",
+          "name": "Create Person",
           "request": {
             "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Weight\"\n}"
+              "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"123456789\",\n    \"documentNumber\": \"12345678A\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/metric-type",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "metric-type"]
+              "raw": "http://localhost:8081/v1/app/person",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "person"]
             }
           }
         },
         {
-          "name": "Get Metric Type by ID",
+          "name": "Get All Persons",
           "request": {
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/metric-type/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "metric-type", "1"]
-            }
-          }
-        },
-        {
-          "name": "Update Metric Type",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Body Weight\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/app/metric-type/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "metric-type", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get All Metric Types",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/v1/app/metric-type?page=0&size=10&sort=id,asc",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "metric-type"],
+              "raw": "http://localhost:8081/v1/app/person?page=1&size=20",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "person"],
               "query": [
                 {
                   "key": "page",
-                  "value": "0"
+                  "value": "1"
                 },
                 {
                   "key": "size",
-                  "value": "10"
-                },
-                {
-                  "key": "sort",
-                  "value": "id,asc"
+                  "value": "20"
                 }
               ]
             }
           }
         },
         {
-          "name": "Get All Metric Types (No Pagination)",
+          "name": "Get Person by ID",
           "request": {
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/metric-type/all",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "metric-type", "all"]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Fitness Goal Status",
-      "item": [
-        {
-          "name": "Create Fitness Goal Status",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"In Progress\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-status",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "fitness-goal-status"]
+              "raw": "http://localhost:8081/v1/app/person/1",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "person", "1"]
             }
           }
         },
         {
-          "name": "Get Fitness Goal Status by ID",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-status/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "fitness-goal-status", "1"]
-            }
-          }
-        },
-        {
-          "name": "Update Fitness Goal Status",
+          "name": "Update Person",
           "request": {
             "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Completed\"\n}"
+              "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"987654321\",\n    \"documentNumber\": \"12345678A\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-status/1",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "fitness-goal-status", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get All Fitness Goal Status",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-status?page=0&size=10&sort=id,asc",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "fitness-goal-status"],
-              "query": [
-                {
-                  "key": "page",
-                  "value": "0"
-                },
-                {
-                  "key": "size",
-                  "value": "10"
-                },
-                {
-                  "key": "sort",
-                  "value": "id,asc"
-                }
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get All Fitness Goal Status (No Pagination)",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-status/all",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "fitness-goal-status", "all"]
+              "raw": "http://localhost:8081/v1/app/person/1",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "person", "1"]
             }
           }
         }
@@ -490,6 +419,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
@@ -497,8 +430,27 @@
               "raw": "{\n    \"name\": \"Weight Loss\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-type",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/fitness-goal-type",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "fitness-goal-type"]
+            }
+          }
+        },
+        {
+          "name": "Get All Fitness Goal Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/fitness-goal-type",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "fitness-goal-type"]
             }
           }
@@ -509,13 +461,14 @@
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-type/1",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/fitness-goal-type/1",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "fitness-goal-type", "1"]
             }
           }
@@ -528,47 +481,21 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"name\": \"Muscle Gain\"\n}"
+              "raw": "{\n    \"name\": \"Updated Goal Type\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-type/1",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/fitness-goal-type/1",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "fitness-goal-type", "1"]
-            }
-          }
-        },
-        {
-          "name": "Get All Fitness Goal Types",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-type?page=0&size=10&sort=id,asc",
-              "host": ["{{base_url}}"],
-              "path": ["v1", "app", "fitness-goal-type"],
-              "query": [
-                {
-                  "key": "page",
-                  "value": "0"
-                },
-                {
-                  "key": "size",
-                  "value": "10"
-                },
-                {
-                  "key": "sort",
-                  "value": "id,asc"
-                }
-              ]
             }
           }
         },
@@ -578,14 +505,237 @@
             "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "{{auth_token}}"
               }
             ],
             "url": {
-              "raw": "{{base_url}}/v1/app/fitness-goal-type/all",
-              "host": ["{{base_url}}"],
+              "raw": "http://localhost:8081/v1/app/fitness-goal-type/all",
+              "host": ["localhost"],
+              "port": "8081",
               "path": ["v1", "app", "fitness-goal-type", "all"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fitness Goal Status",
+      "item": [
+        {
+          "name": "Create Fitness Goal Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"In Progress\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/fitness-goal-status",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "fitness-goal-status"]
+            }
+          }
+        },
+        {
+          "name": "Get All Fitness Goal Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/fitness-goal-status",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "fitness-goal-status"]
+            }
+          }
+        },
+        {
+          "name": "Get Fitness Goal Status by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/fitness-goal-status/1",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "fitness-goal-status", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Fitness Goal Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Status\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/fitness-goal-status/1",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "fitness-goal-status", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get All Fitness Goal Status (No Pagination)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/fitness-goal-status/all",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "fitness-goal-status", "all"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Metric Types",
+      "item": [
+        {
+          "name": "Create Metric Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Weight\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "metric-type"]
+            }
+          }
+        },
+        {
+          "name": "Get All Metric Types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "metric-type"]
+            }
+          }
+        },
+        {
+          "name": "Get Metric Type by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type/1",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "metric-type", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Metric Type",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Metric Type\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type/1",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "metric-type", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get All Metric Types (No Pagination)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type/all",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["v1", "app", "metric-type", "all"]
             }
           }
         }
@@ -594,13 +744,8 @@
   ],
   "variable": [
     {
-      "key": "base_url",
-      "value": "http://localhost:8081",
-      "type": "string"
-    },
-    {
-      "key": "verification_token",
-      "value": "your-verification-token",
+      "key": "auth_token",
+      "value": "",
       "type": "string"
     }
   ]

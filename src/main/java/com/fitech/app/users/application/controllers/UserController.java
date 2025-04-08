@@ -4,6 +4,7 @@ import com.fitech.app.commons.application.controllers.BaseController;
 import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
 import com.fitech.app.users.application.dto.LoginRequestDto;
+import com.fitech.app.users.application.dto.LoginResponseDto;
 import com.fitech.app.users.application.exception.UserNotFoundException;
 import com.fitech.app.users.application.wrappers.ResultPage;
 import com.fitech.app.users.domain.entities.User;
@@ -35,9 +36,9 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
         try {
-            UserResponseDto userResponseDto = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
+            LoginResponseDto userResponseDto = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
             return ResponseEntity.ok(userResponseDto);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

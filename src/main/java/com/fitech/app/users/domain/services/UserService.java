@@ -1,5 +1,6 @@
 package com.fitech.app.users.domain.services;
 
+import com.fitech.app.users.application.dto.LoginResponseDto;
 import com.fitech.app.users.application.wrappers.ResultPage;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
@@ -16,5 +17,5 @@ public interface UserService {
     User getUserEntityById(Integer id);
     ResultPage<UserResponseDto> getAll(Pageable paging);
     UserResponseDto verifyEmail(String token);
-    UserResponseDto login(String username, String password);
+    LoginResponseDto login(String username, String password);
 }
