@@ -1,39 +1,51 @@
-CREATE DATABASE fitech;
+-- Configurar el conjunto de caracteres para la sesión
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET character_set_connection = utf8mb4;
+
+-- Crear la base de datos con soporte UTF-8
+CREATE DATABASE IF NOT EXISTS fitech 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_unicode_ci;
 
 USE fitech;
 
-
-create Table user_type (
+-- Crear tabla de tipos de usuario
+CREATE TABLE IF NOT EXISTS user_type (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE metric_types (
+-- Crear tabla de tipos de métricas
+CREATE TABLE IF NOT EXISTS metric_types (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE -- Ej: 'Peso, Masa mulcular, Grasa corporal, IMC, Edad metabólica, Grasa visceral, % de agua, Masa ósea, Frecuencia cardiaca en reposo'
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE fitness_goal_status (
+-- Crear tabla de estados de objetivos de fitness
+CREATE TABLE IF NOT EXISTS fitness_goal_status (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE -- Ej: 'En progreso', 'Completado', 'Cancelado'
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE fitness_goal_type (
+-- Crear tabla de tipos de objetivos de fitness
+CREATE TABLE IF NOT EXISTS fitness_goal_type (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE -- Ej: 'Pérdida de peso', 'Aumento de masa muscular', 'Definición'
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE person (
+-- Crear tabla de personas
+CREATE TABLE IF NOT EXISTS person (
   id INT AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(125) NOT NULL,
   last_name VARCHAR(125) NOT NULL,
   document_number VARCHAR(80) NOT NULL UNIQUE,
   phone_number VARCHAR(60) NOT NULL,
   email VARCHAR(60) NOT NULL
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-
-CREATE TABLE user (
+-- Crear tabla de usuarios
+CREATE TABLE IF NOT EXISTS user (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
@@ -46,21 +58,19 @@ CREATE TABLE user (
   type INT DEFAULT 0, -- 0: Cliente, 1: Entrenador, 2: Soporte
   FOREIGN KEY (person_id) REFERENCES person(id),
   FOREIGN KEY (type) REFERENCES user_type(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Objetivos de fitness
-
-CREATE TABLE fitness_goal (
+-- Crear tabla de objetivos de fitness
+CREATE TABLE IF NOT EXISTS fitness_goal (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(125) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE,
     note TEXT, -- Notas adicionales sobre el objetivo
     goal_type_id INT,
-    
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (goal_type_id) REFERENCES fitness_goal_type(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE fitness_goal_detail (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +80,7 @@ CREATE TABLE fitness_goal_detail (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (fitness_goal_id) REFERENCES fitness_goal(id),
     FOREIGN KEY (metric_type_id) REFERENCES metric_types(id)
-);
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE user_fitness_goals (
     id INT PRIMARY KEY, 
@@ -83,10 +93,7 @@ CREATE TABLE user_fitness_goals (
     FOREIGN KEY (fitness_goal_id) REFERENCES fitness_goal(id),
     FOREIGN KEY (trainer_id) REFERENCES user(id),
     FOREIGN KEY (goal_status_id) REFERENCES fitness_goal_status(id)
-);
-
-
-
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Insertar datos en la tabla user_type
 INSERT INTO user_type (name) VALUES ('Usuario');
@@ -113,3 +120,18 @@ INSERT INTO fitness_goal_status (name) VALUES ('Cancelado');
 INSERT INTO fitness_goal_type (name) VALUES ('Pérdida de peso');
 INSERT INTO fitness_goal_type (name) VALUES ('Aumento de masa muscular');
 INSERT INTO fitness_goal_type (name) VALUES ('Definición');
+
+-- Insertar una persona
+INSERT INTO person (first_name, last_name, document_number, phone_number, email) 
+VALUES ('Admin', 'Admin', '12345678', '+1234567890', 'admin@fitech.com');
+
+-- Insertar un usuario asociado a la persona
+-- Nota: La contraseña es 'testpass' hasheada con BCrypt
+INSERT INTO user (username, password, type, person_id, is_email_verified) 
+VALUES (
+    'admin',
+    '$2a$10$Mr9oKYjp8kqkIdSsngj1IOhvFfVf6WChbaF4WnYuWkoBrpny9eAyO',
+    1, -- Tipo: Cliente
+    LAST_INSERT_ID(), -- ID de la persona insertada
+    TRUE -- Email verificado
+);
