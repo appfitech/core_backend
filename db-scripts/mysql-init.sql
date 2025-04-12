@@ -4,7 +4,7 @@ SET CHARACTER SET utf8mb4;
 SET character_set_connection = utf8mb4;
 
 -- Crear la base de datos con soporte UTF-8
-CREATE DATABASE IF NOT EXISTS fitech 
+CREATE DATABASE IF NOT EXISTS fitech
 CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS fitness_goal (
     FOREIGN KEY (goal_type_id) REFERENCES fitness_goal_type(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE fitness_goal_detail (
+CREATE TABLE IF NOT EXISTS fitness_goal_detail (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fitness_goal_id INT NOT NULL, -- Referencia al objetivo de fitness
     metric_type_id INT NOT NULL,  -- Referencia al tipo de métrica (peso, masa muscular, etc.)
@@ -82,10 +82,10 @@ CREATE TABLE fitness_goal_detail (
     FOREIGN KEY (metric_type_id) REFERENCES metric_types(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE user_fitness_goals (
-    id INT PRIMARY KEY, 
-    target_date DATE NOT NULL, 
-    note TEXT, 
+CREATE TABLE IF NOT EXISTS user_fitness_goals (
+    id INT PRIMARY KEY,
+    target_date DATE NOT NULL,
+    note TEXT,
     trainer_id INT,
     fitness_goal_id INT, -- Referencia al Id del objetivo
     goal_status_id INT, -- Estado del objetivo
@@ -94,6 +94,30 @@ CREATE TABLE user_fitness_goals (
     FOREIGN KEY (trainer_id) REFERENCES user(id),
     FOREIGN KEY (goal_status_id) REFERENCES fitness_goal_status(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS user_files (
+    id INT PRIMARY KEY,
+    user_id INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(50) NOT NULL,
+    filePath VARCHAR(255) NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS  achievements (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    trainer_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    achieved_at DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_achievements_trainer
+    FOREIGN KEY (trainer_id) REFERENCES user(id)
+    ON DELETE CASCADE
+);
 
 -- Insertar datos en la tabla user_type
 INSERT INTO user_type (name) VALUES ('Usuario');
@@ -122,12 +146,12 @@ INSERT INTO fitness_goal_type (name) VALUES ('Aumento de masa muscular');
 INSERT INTO fitness_goal_type (name) VALUES ('Definición');
 
 -- Insertar una persona
-INSERT INTO person (first_name, last_name, document_number, phone_number, email) 
+INSERT INTO person (first_name, last_name, document_number, phone_number, email)
 VALUES ('Admin', 'Admin', '12345678', '+1234567890', 'admin@fitech.com');
 
 -- Insertar un usuario asociado a la persona
 -- Nota: La contraseña es 'testpass' hasheada con BCrypt
-INSERT INTO user (username, password, type, person_id, is_email_verified) 
+INSERT INTO user (username, password, type, person_id, is_email_verified)
 VALUES (
     'admin',
     '$2a$10$Mr9oKYjp8kqkIdSsngj1IOhvFfVf6WChbaF4WnYuWkoBrpny9eAyO',

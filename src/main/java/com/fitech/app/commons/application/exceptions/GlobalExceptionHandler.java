@@ -1,9 +1,7 @@
 package com.fitech.app.commons.application.exceptions;
 
 import com.fitech.app.users.application.dto.ErrorResponseDto;
-import com.fitech.app.users.application.exception.DuplicatedUserException;
-import com.fitech.app.users.application.exception.UserNotFoundException;
-import com.fitech.app.users.application.exception.InvalidPasswordException;
+import com.fitech.app.users.application.exception.*;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
@@ -20,62 +18,77 @@ import java.util.Arrays;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final Environment environment;
+  private final Environment environment;
 
-    public GlobalExceptionHandler(Environment environment) {
-        this.environment = environment;
+  public GlobalExceptionHandler(Environment environment) {
+    this.environment = environment;
+  }
+
+  @ExceptionHandler(UserNotFoundException.class)
+  public ResponseEntity<ErrorResponseDto> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+    log.error("User not found: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
+  }
+
+  @ExceptionHandler(DuplicatedUserException.class)
+  public ResponseEntity<ErrorResponseDto> handleDuplicatedUserException(DuplicatedUserException ex, WebRequest request) {
+    log.error("Duplicated user: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getDescription(false), ex);
+  }
+
+  @ExceptionHandler(InvalidPasswordException.class)
+  public ResponseEntity<ErrorResponseDto> handleInvalidPasswordException(InvalidPasswordException ex, WebRequest request) {
+    log.error("Invalid credentials: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getDescription(false), ex);
+  }
+
+  @ExceptionHandler(ValidationException.class)
+  public ResponseEntity<ErrorResponseDto> handleValidationException(ValidationException ex, WebRequest request) {
+    log.error("Validation error: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getDescription(false), ex);
+  }
+
+  @ExceptionHandler({
+    Exception.class,
+    StorageException.class
+  })
+  public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception ex, WebRequest request) {
+    log.error("Unexpected error: {}", ex.getMessage(), ex);
+    return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+      "An unexpected error occurred",
+      request.getDescription(false),
+      ex);
+  }
+
+  @ExceptionHandler(StorageFileNotFoundException.class)
+  public ResponseEntity<ErrorResponseDto> handleStorageFileNotFoundException(StorageFileNotFoundException ex, WebRequest request) {
+    log.error("Storage file not found: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ErrorResponseDto> handleStorageFileNotFoundException(EntityNotFoundException ex, WebRequest request) {
+    log.error("Entity not found: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
+  }
+
+  private ResponseEntity<ErrorResponseDto> buildErrorResponse(HttpStatus status, String message, String path, Exception ex) {
+    ErrorResponseDto.ErrorResponseDtoBuilder builder = ErrorResponseDto.builder()
+      .timestamp(LocalDateTime.now())
+      .status(status.value())
+      .error(status.getReasonPhrase())
+      .message(message)
+      .path(path);
+
+    // Add stacktrace in development profile
+    if (isDevelopmentProfile()) {
+      builder.stackTrace(Arrays.toString(ex.getStackTrace()));
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
-        log.error("User not found: {}", ex.getMessage());
-        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
-    }
+    return new ResponseEntity<>(builder.build(), status);
+  }
 
-    @ExceptionHandler(DuplicatedUserException.class)
-    public ResponseEntity<ErrorResponseDto> handleDuplicatedUserException(DuplicatedUserException ex, WebRequest request) {
-        log.error("Duplicated user: {}", ex.getMessage());
-        return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getDescription(false), ex);
-    }
-
-    @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<ErrorResponseDto> handleInvalidPasswordException(InvalidPasswordException ex, WebRequest request) {
-        log.error("Invalid credentials: {}", ex.getMessage());
-        return buildErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getDescription(false), ex);
-    }
-
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<ErrorResponseDto> handleValidationException(ValidationException ex, WebRequest request) {
-        log.error("Validation error: {}", ex.getMessage());
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getDescription(false), ex);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponseDto> handleGlobalException(Exception ex, WebRequest request) {
-        log.error("Unexpected error: {}", ex.getMessage(), ex);
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, 
-                "An unexpected error occurred", 
-                request.getDescription(false),
-                ex);
-    }
-
-    private ResponseEntity<ErrorResponseDto> buildErrorResponse(HttpStatus status, String message, String path, Exception ex) {
-        ErrorResponseDto.ErrorResponseDtoBuilder builder = ErrorResponseDto.builder()
-                .timestamp(LocalDateTime.now())
-                .status(status.value())
-                .error(status.getReasonPhrase())
-                .message(message)
-                .path(path);
-
-        // Add stacktrace in development profile
-        if (isDevelopmentProfile()) {
-            builder.stackTrace(Arrays.toString(ex.getStackTrace()));
-        }
-
-        return new ResponseEntity<>(builder.build(), status);
-    }
-
-    private boolean isDevelopmentProfile() {
-        return !Arrays.asList(environment.getActiveProfiles()).contains("prod");
-    }
+  private boolean isDevelopmentProfile() {
+    return !Arrays.asList(environment.getActiveProfiles()).contains("prod");
+  }
 }
