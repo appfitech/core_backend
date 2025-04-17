@@ -108,6 +108,7 @@ CREATE TABLE IF NOT EXISTS user_files (
 CREATE TABLE IF NOT EXISTS  achievements (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     trainer_id BIGINT NOT NULL,
+    achievement_type VARCHAR(255) NOT NULL, -- Ej: 'certification', 'award'
     title VARCHAR(255) NOT NULL,
     description TEXT,
     achieved_at DATE,
@@ -116,6 +117,21 @@ CREATE TABLE IF NOT EXISTS  achievements (
 
     CONSTRAINT fk_achievements_trainer
     FOREIGN KEY (trainer_id) REFERENCES user(id)
+    ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS achievement_files (
+     id BIGINT PRIMARY KEY AUTO_INCREMENT,
+     achievement_id BIGINT NOT NULL,
+     file_user_id INT NOT NULL,
+     uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_achievement_files_achievement
+    FOREIGN KEY (achievement_id) REFERENCES achievements(id)
+    ON DELETE CASCADE
+
+    CONSTRAINT fk_achievement_files_user_files
+    FOREIGN KEY (file_user_id) REFERENCES user_files(id)
     ON DELETE CASCADE
 );
 

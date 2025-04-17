@@ -2,10 +2,15 @@ package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.users.application.exception.EntityNotFoundException;
 import com.fitech.app.users.domain.entities.Achievement;
+import com.fitech.app.users.domain.entities.AchievementFile;
+import com.fitech.app.users.domain.entities.UserFiles;
 import com.fitech.app.users.domain.model.AchievementDto;
+import com.fitech.app.users.domain.model.AchievementFileDto;
+import com.fitech.app.users.domain.model.GetAchievementDto;
 import com.fitech.app.users.domain.services.AchievementService;
 import com.fitech.app.users.domain.services.impl.mappers.AchievementMapper;
 import com.fitech.app.users.infrastructure.repository.AchievementRepository;
+import com.fitech.app.users.infrastructure.repository.UserFileRepository;
 import com.fitech.app.users.infrastructure.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -24,40 +29,62 @@ public class AchievementServiceImpl implements AchievementService {
   @Autowired
   private UserRepository userRepository;
 
+  @Autowired
+  private UserFileRepository userFileRepository;
+
   @Override
-  public List<AchievementDto> getAchievementsByTrainerId(Long trainerId) {
+  public List<GetAchievementDto> getAchievementsByTrainerId(Long trainerId) {
 
     List<Achievement> achievementsEntity = achievementRepository.findByTrainerId(trainerId);
-
-    return achievementsEntity.stream().map(AchievementMapper::toDto).toList();
+    log.info("Achievements found with trainer id {}: {}", trainerId, achievementsEntity);
+    return achievementsEntity.stream().map(AchievementMapper::toGetAchievementDto).toList();
   }
 
   @Override
+  @Transactional
   public AchievementDto createAchievement(Long trainerId, AchievementDto dto) {
-    log.info("Achievement created with trainer id {} and AchievementDto {}", trainerId, dto);
-    dto.setTrainerId(trainerId);
+    Achievement achievement = AchievementMapper.toEntity(dto);
+    achievement.setTrainerId(trainerId);
 
-    Achievement achievementEntity = this.achievementRepository.save(AchievementMapper.toEntity(dto));
-    return AchievementMapper.toDto(achievementEntity);
+    log.info("Achievement created with trainer id {} and AchievementDto {}", trainerId, achievement);
+
+    if (dto.getFilesUpload() != null) {
+      for (AchievementFileDto fileDto : dto.getFilesUpload()) {
+        log.info("Adding file to achievement: {}", fileDto.toString());
+        AchievementFile file = new AchievementFile();
+        file.setUserFile(userFileRepository.findById(fileDto.getUserFileId()).orElseThrow());
+        achievement.addFile(file);
+      }
+    }
+    log.info("Achievement after adding files: {}", achievement);
+    return AchievementMapper.toDto(achievementRepository.save(achievement));
   }
 
   @Override
   @Transactional
   public AchievementDto updateAchievement(Long achievementId, AchievementDto updated) {
     log.info("Achievement update with achievementId id {} and AchievementDto {}", achievementId, updated);
-    if (!achievementRepository.existsById(achievementId)) {
-      throw new EntityNotFoundException("Achievement not found with ID: " + achievementId);
-    }
+
     Integer userId = Integer.parseInt(updated.getTrainerId().toString());
     log.info("trainerId {}", userId);
     if (!userRepository.existsById(userId)) {
       throw new EntityNotFoundException("trainer not found with ID: " + userId);
     }
 
-    updated.setId(achievementId);
-    Achievement achievementEntity = achievementRepository.save(AchievementMapper.toEntity(updated));
+    Achievement achievementEntity = achievementRepository.findById(achievementId)
+        .orElseThrow(() -> new EntityNotFoundException("Achievement not found with ID: " + achievementId));
 
-    return AchievementMapper.toDto(achievementEntity);
+    achievementEntity.getFiles().clear();
+
+    if (updated.getFilesUpload() != null) {
+      for (AchievementFileDto fileDto : updated.getFilesUpload()) {
+        AchievementFile file = new AchievementFile();
+        file.setUserFile(userFileRepository.findById(fileDto.getUserFileId()).orElseThrow());
+        achievementEntity.addFile(file);
+      }
+    }
+
+    return AchievementMapper.toDto(achievementRepository.save(achievementEntity));
   }
 
   @Override

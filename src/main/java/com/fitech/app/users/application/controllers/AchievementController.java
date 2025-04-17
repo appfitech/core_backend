@@ -1,6 +1,7 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.users.domain.model.AchievementDto;
+import com.fitech.app.users.domain.model.GetAchievementDto;
 import com.fitech.app.users.domain.services.AchievementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class AchievementController {
   private AchievementService achievementService;
 
   @GetMapping("/trainers/{trainerId}")
-  public ResponseEntity<List<AchievementDto>> listAchievements(@PathVariable Long trainerId) {
+  public ResponseEntity<List<GetAchievementDto>> listAchievements(@PathVariable Long trainerId) {
     return ResponseEntity.ok(achievementService.getAchievementsByTrainerId(trainerId));
   }
 
@@ -43,4 +44,5 @@ public class AchievementController {
     achievementService.deleteAchievement(achievementId);
     return ResponseEntity.noContent().build();
   }
+
 }

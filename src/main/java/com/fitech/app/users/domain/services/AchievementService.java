@@ -1,11 +1,12 @@
 package com.fitech.app.users.domain.services;
 
 import com.fitech.app.users.domain.model.AchievementDto;
+import com.fitech.app.users.domain.model.GetAchievementDto;
 
 import java.util.List;
 
 public interface AchievementService {
-  List<AchievementDto> getAchievementsByTrainerId(Long trainerId);
+  List<GetAchievementDto> getAchievementsByTrainerId(Long trainerId);
 
   AchievementDto createAchievement(Long trainerId, AchievementDto achievement);
 
