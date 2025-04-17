@@ -977,6 +977,368 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Upload File",
+      "item": [
+        {
+          "name": "uploadFile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "postman-cloud:///1f0175d3-9d7b-4280-8a40-126a67ddc0af"
+                }
+              ]
+            },
+            "url": {
+              "raw": "localhost:8081/v1/app/file-upload/user/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "file-upload",
+                "user",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "uploadFile",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{auth_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "postman-cloud:///1f0175d3-9d7b-4280-8a40-126a67ddc0af"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "localhost:8081/v1/app/file-upload/user/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "v1",
+                    "app",
+                    "file-upload",
+                    "user",
+                    "1"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "name": "Content-Type",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 2,\n    \"userId\": 1,\n    \"fileName\": \"da7e7e6a-8969-4fb5-8fa2-8fa76029fab0_0f9fb27ebbf04a8fc7918156261eef98-xlarge.jpeg\",\n    \"fileType\": \"jpeg\",\n    \"filePath\": \"/Users/cbdavid14/Documents/cbdavid14/projects/ConsultingProjects/fitness-app/core_backend/uploads/user_1/da7e7e6a-8969-4fb5-8fa2-8fa76029fab0_0f9fb27ebbf04a8fc7918156261eef98-xlarge.jpeg\",\n    \"uploadedAt\": [\n        2025,\n        4,\n        16,\n        17,\n        41,\n        52,\n        912312000\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "getAllFileByUser",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/file-upload/user/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "file-upload",
+                "user",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteByUser",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/file-upload/user/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "file-upload",
+                "user",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteByFileId",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/file-upload/5",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "file-upload",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Achievements",
+      "item": [
+        {
+          "name": "listAchievements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/achievements/trainers/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "achievements",
+                "trainers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createAchievement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"achievementType\": \"certification\",\n    \"title\": \"Certificación CrossFit\",\n    \"description\": \"Trainer certificado en nivel 1 de CrossFit\",\n    \"achievedAt\": \"2025-04-12\",\n    \"filesUpload\": [\n        {\n            \"userFileId\": 1\n        },\n        {\n            \"userFileId\": 2\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8081/v1/app/achievements/trainers/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "achievements",
+                "trainers",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "createAchievement",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{auth_token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"achievementType\": \"certification\",\n    \"title\": \"Certificación CrossFit\",\n    \"description\": \"Trainer certificado en nivel 1 de CrossFit\",\n    \"achievedAt\": \"2025-04-12\",\n    \"filesUpload\": [\n        {\n            \"userFileId\": 1\n        },\n        {\n            \"userFileId\": 2\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "localhost:8081/v1/app/achievements/trainers/1",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "v1",
+                    "app",
+                    "achievements",
+                    "trainers",
+                    "1"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "name": "Content-Type",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 10,\n    \"trainerId\": 1,\n    \"achievementType\": \"certification\",\n    \"title\": \"Certificación CrossFit\",\n    \"description\": \"Trainer certificado en nivel 1 de CrossFit\",\n    \"achievedAt\": [\n        2025,\n        4,\n        12\n    ],\n    \"createdAt\": [\n        2025,\n        4,\n        16,\n        19,\n        29,\n        26,\n        685418000\n    ],\n    \"updatedAt\": [\n        2025,\n        4,\n        16,\n        19,\n        29,\n        26,\n        685418000\n    ],\n    \"filesUpload\": [\n        {\n            \"id\": 5,\n            \"userFileId\": 1\n        },\n        {\n            \"id\": 6,\n            \"userFileId\": 2\n        }\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "updateAchievement",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"trainerId\": 1,\n    \"achievementType\": \"certification\",\n    \"title\": \"Certificación CrossFit2\",\n    \"description\": \"Trainer certificado en nivel 1 de CrossFit\",\n    \"achievedAt\": \"2025-04-12\",\n    \"filesUpload\": [\n        {\n            \"userFileId\": 1\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8081/v1/app/achievements/11",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "achievements",
+                "11"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteAchievement",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/achievements/22",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "achievements",
+                "22"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "auth": {
