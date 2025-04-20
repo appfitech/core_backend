@@ -72,14 +72,36 @@ CREATE TABLE IF NOT EXISTS fitness_goal (
     FOREIGN KEY (goal_type_id) REFERENCES fitness_goal_type(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- Crear tabla de unidades de medida
+CREATE TABLE IF NOT EXISTS unit_of_measure (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE, -- Nombre de la unidad (ej: kilogramos, porcentaje)
+    symbol VARCHAR(10) NOT NULL UNIQUE, -- Símbolo de la unidad (ej: kg, %)
+    description VARCHAR(255) -- Descripción opcional de la unidad
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Crear tabla de relación entre métricas y unidades de medida
+CREATE TABLE IF NOT EXISTS metric_type_unit (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    metric_type_id INT NOT NULL,
+    unit_of_measure_id INT NOT NULL,
+    is_default BOOLEAN DEFAULT FALSE, -- Indica si es la unidad por defecto para esta métrica
+    FOREIGN KEY (metric_type_id) REFERENCES metric_types(id),
+    FOREIGN KEY (unit_of_measure_id) REFERENCES unit_of_measure(id),
+    UNIQUE KEY unique_metric_unit (metric_type_id, unit_of_measure_id)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Modificar tabla fitness_goal_detail para usar la relación métrica-unidad
 CREATE TABLE IF NOT EXISTS fitness_goal_detail (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fitness_goal_id INT NOT NULL, -- Referencia al objetivo de fitness
-    metric_type_id INT NOT NULL,  -- Referencia al tipo de métrica (peso, masa muscular, etc.)
+    metric_type_id INT NOT NULL,  -- Referencia al tipo de métrica
     target_value DECIMAL(10, 2) NOT NULL,  -- Valor objetivo para esta métrica
+    unit_of_measure_id INT NOT NULL, -- Referencia a la unidad de medida válida para esta métrica
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (fitness_goal_id) REFERENCES fitness_goal(id),
-    FOREIGN KEY (metric_type_id) REFERENCES metric_types(id)
+    FOREIGN KEY (metric_type_id) REFERENCES metric_types(id),
+    FOREIGN KEY (unit_of_measure_id) REFERENCES unit_of_measure(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS user_fitness_goals (
@@ -106,8 +128,8 @@ CREATE TABLE IF NOT EXISTS user_files (
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS  achievements (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    trainer_id BIGINT NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    trainer_id INT NOT NULL,
     achievement_type VARCHAR(255) NOT NULL, -- Ej: 'certification', 'award'
     title VARCHAR(255) NOT NULL,
     description TEXT,
@@ -121,14 +143,14 @@ CREATE TABLE IF NOT EXISTS  achievements (
 );
 
 CREATE TABLE IF NOT EXISTS achievement_files (
-     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-     achievement_id BIGINT NOT NULL,
+     id INT PRIMARY KEY AUTO_INCREMENT,
+     achievement_id INT NOT NULL,
      file_user_id INT NOT NULL,
      uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_achievement_files_achievement
     FOREIGN KEY (achievement_id) REFERENCES achievements(id)
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
 
     CONSTRAINT fk_achievement_files_user_files
     FOREIGN KEY (file_user_id) REFERENCES user_files(id)
@@ -175,3 +197,71 @@ VALUES (
     LAST_INSERT_ID(), -- ID de la persona insertada
     TRUE -- Email verificado
 );
+
+-- Insertar unidades de medida comunes
+INSERT INTO unit_of_measure (name, symbol, description) VALUES 
+('Kilogramos', 'kg', 'Unidad de masa'),
+('Gramos', 'g', 'Unidad de masa'),
+('Porcentaje', '%', 'Porcentaje'),
+('Kilogramos por metro cuadrado', 'kg/m²', 'Unidad de IMC'),
+('Años', 'años', 'Unidad de tiempo'),
+('Latidos por minuto', 'lpm', 'Frecuencia cardíaca'),
+('Centímetros', 'cm', 'Unidad de longitud'),
+('Mililitros', 'ml', 'Unidad de volumen'),
+('Calorías', 'cal', 'Unidad de energía'),
+('Kilocalorías', 'kcal', 'Unidad de energía (1000 calorías)');
+
+-- Relacionar métricas con sus unidades de medida correspondientes
+-- Peso
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Peso' AND u.symbol = 'kg';
+
+-- Masa muscular
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Masa muscular' AND u.symbol = 'kg';
+
+-- Grasa corporal
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Grasa corporal' AND u.symbol = '%';
+
+-- IMC
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'IMC' AND u.symbol = 'kg/m²';
+
+-- Edad metabólica
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Edad metabólica' AND u.symbol = 'años';
+
+-- Grasa visceral
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Grasa visceral' AND u.symbol = '%';
+
+-- % de agua
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = '% de agua' AND u.symbol = '%';
+
+-- Masa ósea
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Masa ósea' AND u.symbol = 'kg';
+
+-- Frecuencia cardíaca en reposo
+INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+SELECT m.id, u.id, TRUE 
+FROM metric_types m, unit_of_measure u 
+WHERE m.name = 'Frecuencia cardíaca en reposo' AND u.symbol = 'lpm';
