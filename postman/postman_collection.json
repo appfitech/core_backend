@@ -250,6 +250,165 @@
       ]
     },
     {
+      "name": "Unit of Measure",
+      "item": [
+        {
+          "name": "Create Unit of Measure",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Kilogram\",\n    \"symbol\": \"kg\",\n    \"description\": \"Unit of mass\"\n}"
+            },
+            "url": {
+              "raw": "localhost:8081/v1/app/unit-of-measure",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "unit-of-measure"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Units of Measure",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/unit-of-measure?page=1&size=20",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "unit-of-measure"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Unit of Measure by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/unit-of-measure/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "unit-of-measure",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Unit of Measure",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Kilogram Updated\",\n    \"symbol\": \"kg\",\n    \"description\": \"Updated unit of mass\"\n}"
+            },
+            "url": {
+              "raw": "localhost:8081/v1/app/unit-of-measure/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "unit-of-measure",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Unit of Measure",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8081/v1/app/unit-of-measure/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "unit-of-measure",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "User Types",
       "item": [
         {

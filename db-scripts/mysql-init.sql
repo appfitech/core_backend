@@ -1,3 +1,9 @@
+-- Set character set and collation
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET character_set_connection=utf8mb4;
+
+-- Use the database
 USE fitech;
 -- Insertar datos en la tabla user_type
 INSERT INTO user_type (name) VALUES ('Usuario');
