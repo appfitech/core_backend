@@ -22,11 +22,4 @@ public class UnitOfMeasureDto {
     
     @Size(max = 255, message = "La descripción no puede exceder los 255 caracteres")
     private String description;
-
-    // Campos para paginación
-    private int page;
-    private int size;
-    private long totalElements;
-    private int totalPages;
-    private boolean last;
 } 

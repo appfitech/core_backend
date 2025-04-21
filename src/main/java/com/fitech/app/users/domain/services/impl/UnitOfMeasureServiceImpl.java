@@ -2,6 +2,7 @@ package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.PaginationUtil;
 import com.fitech.app.users.application.dto.UnitOfMeasureDto;
+import com.fitech.app.users.application.exception.UnitOfMeasurerNotFoundException;
 import com.fitech.app.users.application.exception.UserNotFoundException;
 import com.fitech.app.users.application.wrappers.ResultPage;
 import com.fitech.app.users.domain.entities.UnitOfMeasure;
@@ -88,7 +89,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     public ResultPage<UnitOfMeasureDto> findAll(Pageable pageable) {
         Page<UnitOfMeasure> unitsPage = unitOfMeasureRepository.findAll(pageable);
         if(unitsPage.isEmpty()){
-            throw  new UserNotFoundException("Users does not exists");
+            throw new UnitOfMeasurerNotFoundException("Unit of Measure does not exist");
         }
         return PaginationUtil.prepareResultWrapper(unitsPage, UnitOfMeasureDto.class);
     }

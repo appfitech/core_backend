@@ -263,7 +263,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "{{auth_token}}"
+                "value": "Bearer {{auth_token}}"
               }
             ],
             "body": {
@@ -271,7 +271,7 @@
               "raw": "{\n    \"name\": \"Kilogram\",\n    \"symbol\": \"kg\",\n    \"description\": \"Unit of mass\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/unit-of-measure",
+              "raw": "http://localhost:8081/v1/app/units-of-measure",
               "host": [
                 "localhost"
               ],
@@ -279,7 +279,7 @@
               "path": [
                 "v1",
                 "app",
-                "unit-of-measure"
+                "units-of-measure"
               ]
             }
           },
@@ -292,11 +292,11 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "{{auth_token}}"
+                "value": "Bearer {{auth_token}}"
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/unit-of-measure?page=1&size=20",
+              "raw": "http://localhost:8081/v1/app/units-of-measure?page=1&size=20",
               "host": [
                 "localhost"
               ],
@@ -304,7 +304,7 @@
               "path": [
                 "v1",
                 "app",
-                "unit-of-measure"
+                "units-of-measure"
               ],
               "query": [
                 {
@@ -327,11 +327,11 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "{{auth_token}}"
+                "value": "Bearer {{auth_token}}"
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/unit-of-measure/1",
+              "raw": "http://localhost:8081/v1/app/units-of-measure/1",
               "host": [
                 "localhost"
               ],
@@ -339,7 +339,7 @@
               "path": [
                 "v1",
                 "app",
-                "unit-of-measure",
+                "units-of-measure",
                 "1"
               ]
             }
@@ -357,7 +357,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "{{auth_token}}"
+                "value": "Bearer {{auth_token}}"
               }
             ],
             "body": {
@@ -365,7 +365,7 @@
               "raw": "{\n    \"name\": \"Kilogram Updated\",\n    \"symbol\": \"kg\",\n    \"description\": \"Updated unit of mass\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/unit-of-measure/1",
+              "raw": "http://localhost:8081/v1/app/units-of-measure/1",
               "host": [
                 "localhost"
               ],
@@ -373,7 +373,7 @@
               "path": [
                 "v1",
                 "app",
-                "unit-of-measure",
+                "units-of-measure",
                 "1"
               ]
             }
@@ -387,11 +387,11 @@
             "header": [
               {
                 "key": "Authorization",
-                "value": "{{auth_token}}"
+                "value": "Bearer {{auth_token}}"
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/unit-of-measure/1",
+              "raw": "http://localhost:8081/v1/app/units-of-measure/1",
               "host": [
                 "localhost"
               ],
@@ -399,7 +399,7 @@
               "path": [
                 "v1",
                 "app",
-                "unit-of-measure",
+                "units-of-measure",
                 "1"
               ]
             }
