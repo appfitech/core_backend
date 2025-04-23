@@ -1,8 +1,11 @@
 package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.domain.model.MetricTypeDto;
 import com.fitech.app.users.domain.model.MetricTypeUOMDto;
+import com.fitech.app.users.domain.model.MetricTypeUOMDetailDto;
 import com.fitech.app.users.application.exception.MetricTypeUomNotFoundException;
+import com.fitech.app.users.application.exception.UnitOfMeasureNotFoundException;
 import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.entities.MetricType;
 import com.fitech.app.users.domain.entities.MetricTypeUOM;
@@ -17,6 +20,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
@@ -46,7 +52,7 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de métrica no encontrado"));
         
         UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(metricTypeUOMDto.getUnitOfMeasureId())
-                .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+                .orElseThrow(() -> new UnitOfMeasureNotFoundException("Unidad de medida no encontrada con ID: " + metricTypeUOMDto.getUnitOfMeasureId()));
 
         MetricTypeUOM metricTypeUOM = new MetricTypeUOM();
         metricTypeUOM.setMetricType(metricType);
@@ -103,16 +109,32 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResultPage<MetricTypeUOMDto> findAll(Pageable pageable) {
+    public ResultPage<MetricTypeUOMDetailDto> findAll(Pageable pageable) {
         Page<MetricTypeUOM> unitsPage = metricTypeUOMRepository.findAll(pageable);
-        return PaginationUtil.prepareResultWrapper(unitsPage, MetricTypeUOMDto.class);
+        List<MetricTypeUOMDetailDto> dtos = unitsPage.getContent().stream()
+            .map(this::convertToDetailDto)
+            .collect(Collectors.toList());
+        ResultPage<MetricTypeUOMDetailDto> resultPage = new ResultPage<>();
+        resultPage.setPagesResult(dtos);
+        resultPage.setCurrentPage(unitsPage.getNumber());
+        resultPage.setTotalItems(unitsPage.getTotalElements());
+        resultPage.setTotalPages(unitsPage.getTotalPages());
+        return resultPage;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResultPage<MetricTypeUOMDto> findByMetricType(Integer metricTypeId, Pageable pageable) {
+    public ResultPage<MetricTypeUOMDetailDto> findByMetricType(Integer metricTypeId, Pageable pageable) {
         Page<MetricTypeUOM> unitsPage = metricTypeUOMRepository.findByMetricTypeId(metricTypeId, pageable);
-        return PaginationUtil.prepareResultWrapper(unitsPage, MetricTypeUOMDto.class);
+        List<MetricTypeUOMDetailDto> dtos = unitsPage.getContent().stream()
+            .map(this::convertToDetailDto)
+            .collect(Collectors.toList());
+        ResultPage<MetricTypeUOMDetailDto> resultPage = new ResultPage<>();
+        resultPage.setPagesResult(dtos);
+        resultPage.setCurrentPage(unitsPage.getNumber());
+        resultPage.setTotalItems(unitsPage.getTotalElements());
+        resultPage.setTotalPages(unitsPage.getTotalPages());
+        return resultPage;
     }
 
     @Override
@@ -126,6 +148,26 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
         dto.setId(metricTypeUOM.getId());
         dto.setMetricTypeId(metricTypeUOM.getMetricType() != null ? metricTypeUOM.getMetricType().getId() : null);
         dto.setUnitOfMeasureId(metricTypeUOM.getUnitOfMeasure() != null ? metricTypeUOM.getUnitOfMeasure().getId() : null);
+        dto.setDefault(metricTypeUOM.isDefault());
+        return dto;
+    }
+
+    private MetricTypeUOMDetailDto convertToDetailDto(MetricTypeUOM metricTypeUOM) {
+        MetricTypeUOMDetailDto dto = new MetricTypeUOMDetailDto();
+        dto.setId(metricTypeUOM.getId());
+        
+        if (metricTypeUOM.getMetricType() != null) {
+            dto.setMetricTypeId(metricTypeUOM.getMetricType().getId());
+            dto.setMetricTypeName(metricTypeUOM.getMetricType().getName());
+        }
+        
+        if (metricTypeUOM.getUnitOfMeasure() != null) {
+            dto.setUnitOfMeasureId(metricTypeUOM.getUnitOfMeasure().getId());
+            dto.setUnitOfMeasureName(metricTypeUOM.getUnitOfMeasure().getName());
+            dto.setUnitOfMeasureSymbol(metricTypeUOM.getUnitOfMeasure().getSymbol());
+            dto.setUnitOfMeasureDescription(metricTypeUOM.getUnitOfMeasure().getDescription());
+        }
+        
         dto.setDefault(metricTypeUOM.isDefault());
         return dto;
     }

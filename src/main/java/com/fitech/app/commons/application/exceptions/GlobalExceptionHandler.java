@@ -77,6 +77,12 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
   }
 
+  @ExceptionHandler(UnitOfMeasureNotFoundException.class)
+  public ResponseEntity<ErrorResponseDto> handleUnitOfMeasureNotFoundException(UnitOfMeasureNotFoundException ex, WebRequest request) {
+    log.error("Unit of measure not found: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
+  }
+
   private ResponseEntity<ErrorResponseDto> buildErrorResponse(HttpStatus status, String message, String path, Exception ex) {
     ErrorResponseDto.ErrorResponseDtoBuilder builder = ErrorResponseDto.builder()
       .timestamp(LocalDateTime.now())

@@ -2,6 +2,7 @@ package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
 import com.fitech.app.users.domain.model.MetricTypeUOMDto;
+import com.fitech.app.users.domain.model.MetricTypeUOMDetailDto;
 import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.services.MetricTypeUOMService;
 import jakarta.validation.Valid;
@@ -54,7 +55,7 @@ public class MetricTypeUOMController extends BaseController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        ResultPage<MetricTypeUOMDto> resultPageWrapper = metricTypeUomService.findAll(paging);
+        ResultPage<MetricTypeUOMDetailDto> resultPageWrapper = metricTypeUomService.findAll(paging);
         Map<String, Object> response = prepareResponse(resultPageWrapper);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -65,7 +66,7 @@ public class MetricTypeUOMController extends BaseController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        ResultPage<MetricTypeUOMDto> resultPageWrapper = metricTypeUomService.findByMetricType(metricTypeId, paging);
+        ResultPage<MetricTypeUOMDetailDto> resultPageWrapper = metricTypeUomService.findByMetricType(metricTypeId, paging);
         Map<String, Object> response = prepareResponse(resultPageWrapper);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
