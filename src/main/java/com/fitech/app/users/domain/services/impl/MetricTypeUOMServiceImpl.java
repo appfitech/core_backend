@@ -1,7 +1,6 @@
 package com.fitech.app.users.domain.services.impl;
 
-import com.fitech.app.commons.util.PaginationUtil;
-import com.fitech.app.users.domain.model.MetricTypeDto;
+import com.fitech.app.users.application.exception.DuplicatedMetricTypeUOMException;
 import com.fitech.app.users.domain.model.MetricTypeUOMDto;
 import com.fitech.app.users.domain.model.MetricTypeUOMDetailDto;
 import com.fitech.app.users.application.exception.MetricTypeUomNotFoundException;
@@ -45,7 +44,7 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
     @Transactional
     public MetricTypeUOMDto create(MetricTypeUOMDto metricTypeUOMDto) {
         if (existsByMetricTypeAndUnitOfMeasure(metricTypeUOMDto.getMetricTypeId(), metricTypeUOMDto.getUnitOfMeasureId())) {
-            throw new IllegalArgumentException("Ya existe una relación entre este tipo de métrica y unidad de medida");
+            throw new DuplicatedMetricTypeUOMException("Ya existe una relación entre el tipo de métrica ID: " + metricTypeUOMDto.getMetricTypeId() + " y la unidad de medida ID: " + metricTypeUOMDto.getUnitOfMeasureId());
         }
 
         MetricType metricType = metricTypeRepository.findById(metricTypeUOMDto.getMetricTypeId())

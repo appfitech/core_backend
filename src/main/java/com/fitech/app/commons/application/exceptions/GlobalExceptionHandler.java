@@ -83,6 +83,12 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
   }
 
+  @ExceptionHandler(DuplicatedMetricTypeUOMException.class)
+  public ResponseEntity<ErrorResponseDto> handleDuplicatedMetricTypeUOMException(DuplicatedMetricTypeUOMException ex, WebRequest request) {
+    log.error("Duplicated MetricTypeUOM: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getDescription(false), ex);
+  }
+
   private ResponseEntity<ErrorResponseDto> buildErrorResponse(HttpStatus status, String message, String path, Exception ex) {
     ErrorResponseDto.ErrorResponseDtoBuilder builder = ErrorResponseDto.builder()
       .timestamp(LocalDateTime.now())
