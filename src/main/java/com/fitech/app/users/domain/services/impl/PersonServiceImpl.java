@@ -37,7 +37,7 @@ public class PersonServiceImpl implements PersonService {
 
     private void validatePersonCreation(PersonDto personDto) {
         if (personRepository.findByDocumentNumber(personDto.getDocumentNumber()).isPresent()) {
-            throw new DuplicatedUserException("Document number duplicated for " + personDto.getDocumentNumber());
+            throw new DuplicatedUserException("Document number already exists: " + personDto.getDocumentNumber());
         }
     }
 
@@ -54,7 +54,7 @@ public class PersonServiceImpl implements PersonService {
         // Validate document number if it's being changed
         if(personDto.hasDifferentDocumentNumber(personEntity.getDocumentNumber())) {
             if(findByDocumentNumber(personDto.getDocumentNumber()).isPresent()) {
-                throw new DuplicatedUserException("Document Number duplicated for " + personDto.getDocumentNumber());
+                throw new DuplicatedUserException("Document number already exists: " + personDto.getDocumentNumber());
             }
         }
         
@@ -80,7 +80,7 @@ public class PersonServiceImpl implements PersonService {
     public PersonDto getById(Integer id){
         Optional<Person> person = personRepository.findById(id);
         if(person.isEmpty()){
-            throw new UserNotFoundException("Person Id does not exists: " + id);
+            throw new UserNotFoundException("Person not found with ID: " + id);
         }
         return MapperUtil.map(person.get(), PersonDto.class);
     }
@@ -88,14 +88,14 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person getPersonEntityById(Integer id) {
         Optional<Person> optPerson = personRepository.findById(id);
-        return optPerson.orElseThrow(() -> new UserNotFoundException("Person not found with id: " + id));
+        return optPerson.orElseThrow(() -> new UserNotFoundException("Person not found with ID: " + id));
     }
 
     @Override
     public ResultPage<PersonDto> getAll(Pageable paging){
         Page<Person> personList = personRepository.findAll(paging);
         if(personList.isEmpty()){
-            throw new UserNotFoundException("Person does not exists");
+            throw new UserNotFoundException("No persons found");
         }
         return PaginationUtil.prepareResultWrapper(personList, PersonDto.class);
     }

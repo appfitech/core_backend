@@ -58,8 +58,7 @@ public class FileUploadServiceImpl implements FileUploadService {
     Path destinationFile = folderPath.resolve(Paths.get(fileName)).normalize().toAbsolutePath();
 
     if (!destinationFile.getParent().equals(folderPath.toAbsolutePath())) {
-      throw new StorageException(
-        "Cannot store file outside current directory.");
+      throw new StorageException("Cannot store file outside current directory.");
     }
     try (InputStream inputStream = file.getInputStream()) {
       Files.copy(inputStream, destinationFile,
@@ -80,38 +79,30 @@ public class FileUploadServiceImpl implements FileUploadService {
   }
 
   @Override
-  public List<UserFilesDto> getAllByUser(Long userId) {
-    log.info("Listing files for user ID: {}", userId);
-
-    List<UserFiles> userFiles = userFileRepository.findByUserId(userId);
-
-    return userFiles
-      .stream()
-      .map(UserFilesMapper::toDto)
-      .toList();
-  }
-
-  @Transactional
-  @Override
-  public void deleteByUserId(Long userId) {
-    log.info("Removing files for user ID: {}", userId);
-    boolean exists = userFileRepository.existsByUserId(userId);
-    if (!exists) {
-      throw new StorageFileNotFoundException("Files with userId " + userId + ", not found.");
+  public List<UserFilesDto> getAllFilesByUser(Long userId) {
+    List<UserFiles> files = userFileRepository.findByUserId(userId);
+    if (files.isEmpty()) {
+      throw new StorageFileNotFoundException("No files found for user ID: " + userId);
     }
-
-    userFileRepository.deleteByUserId(userId);
+    return UserFilesMapper.toDtoList(files);
   }
 
-  @Transactional
+  @Override
+  public void deleteByUser(Long userId) {
+    List<UserFiles> files = userFileRepository.findByUserId(userId);
+    if (files.isEmpty()) {
+      throw new StorageFileNotFoundException("No files found for user ID: " + userId);
+    }
+    userFileRepository.deleteAll(files);
+  }
+
   @Override
   public void deleteByFileId(Long fileId) {
-    log.info("Removing files for File ID: {}", fileId);
-    Optional<UserFiles> userFiles = userFileRepository.findById(fileId);
-    if (!userFiles.isPresent()) {
-      throw new StorageFileNotFoundException("File with id " + fileId + ", not found.");
+    Optional<UserFiles> file = userFileRepository.findById(fileId);
+    if (file.isEmpty()) {
+      throw new StorageFileNotFoundException("File not found with ID: " + fileId);
     }
-    userFileRepository.deleteById(fileId);
+    userFileRepository.delete(file.get());
   }
 
   private String getExtension(String fileName) {

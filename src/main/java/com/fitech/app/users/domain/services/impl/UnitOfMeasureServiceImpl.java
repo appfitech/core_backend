@@ -28,10 +28,10 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     @Transactional
     public UnitOfMeasureDto create(UnitOfMeasureDto unitOfMeasureDto) {
         if (unitOfMeasureRepository.existsByName(unitOfMeasureDto.getName())) {
-            throw new IllegalArgumentException("Ya existe una unidad de medida con ese nombre");
+            throw new IllegalArgumentException("Unit of measure with this name already exists");
         }
         if (unitOfMeasureRepository.existsBySymbol(unitOfMeasureDto.getSymbol())) {
-            throw new IllegalArgumentException("Ya existe una unidad de medida con ese símbolo");
+            throw new IllegalArgumentException("Unit of measure with this symbol already exists");
         }
 
         UnitOfMeasure unitOfMeasure = new UnitOfMeasure();
@@ -47,15 +47,15 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     @Transactional
     public UnitOfMeasureDto update(Integer id, UnitOfMeasureDto unitOfMeasureDto) {
         UnitOfMeasure existingUnit = unitOfMeasureRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Unit of measure not found"));
 
         if (!existingUnit.getName().equals(unitOfMeasureDto.getName()) && 
             unitOfMeasureRepository.existsByName(unitOfMeasureDto.getName())) {
-            throw new IllegalArgumentException("Ya existe una unidad de medida con ese nombre");
+            throw new IllegalArgumentException("Unit of measure with this name already exists");
         }
         if (!existingUnit.getSymbol().equals(unitOfMeasureDto.getSymbol()) && 
             unitOfMeasureRepository.existsBySymbol(unitOfMeasureDto.getSymbol())) {
-            throw new IllegalArgumentException("Ya existe una unidad de medida con ese símbolo");
+            throw new IllegalArgumentException("Unit of measure with this symbol already exists");
         }
 
         existingUnit.setName(unitOfMeasureDto.getName());
@@ -70,7 +70,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     @Transactional
     public void delete(Integer id) {
         if (!unitOfMeasureRepository.existsById(id)) {
-            throw new EntityNotFoundException("Unidad de medida no encontrada");
+            throw new EntityNotFoundException("Unit of measure not found");
         }
         unitOfMeasureRepository.deleteById(id);
     }
@@ -79,7 +79,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     @Transactional(readOnly = true)
     public UnitOfMeasureDto findById(Integer id) {
         UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Unit of measure not found"));
         return convertToDto(unitOfMeasure);
     }
 
@@ -88,7 +88,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     public ResultPage<UnitOfMeasureDto> findAll(Pageable pageable) {
         Page<UnitOfMeasure> unitsPage = unitOfMeasureRepository.findAll(pageable);
         if(unitsPage.isEmpty()){
-            throw new UnitOfMeasurerNotFoundException("Unit of Measure does not exist");
+            throw new UnitOfMeasurerNotFoundException("No units of measure found");
         }
         return PaginationUtil.prepareResultWrapper(unitsPage, UnitOfMeasureDto.class);
     }

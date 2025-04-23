@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
     private void validateUserCreation(UserDto userDto) {
         if (userRepository.existsByUsername(userDto.getUsername())) {
-            throw new DuplicatedUserException("Username already exists");
+            throw new DuplicatedUserException("Username already exists: " + userDto.getUsername());
         }
     }
 
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.
                 findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
         if(user.isEmpty()) {
-            throw new InvalidPasswordException("Username: " + loginRequest.getUsername());
+            throw new InvalidPasswordException("Invalid credentials for username: " + loginRequest.getUsername());
         }
         return MapperUtil.map(user.get(), UserResponseDto.class);
     }
@@ -137,21 +137,21 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getById(Integer id){
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty()){
-            throw new UserNotFoundException("User Id does not exists: " + id);
+            throw new UserNotFoundException("User not found with ID: " + id);
         }
         return MapperUtil.map(user.get(), UserResponseDto.class);
     }
 
     public User getUserEntityById(Integer usedId) {
         Optional<User> existingUser = userRepository.findById(usedId);
-        return existingUser.orElseThrow(() -> new UserNotFoundException("User not found with id: " + usedId));
+        return existingUser.orElseThrow(() -> new UserNotFoundException("User not found with ID: " + usedId));
     }
     
     @Override
     public ResultPage<UserResponseDto> getAll(Pageable paging){
         Page<User> users = userRepository.findAll(paging);
         if(users.isEmpty()){
-            throw  new UserNotFoundException("Users does not exists");
+            throw new UserNotFoundException("No users found");
         }
         return PaginationUtil.prepareResultWrapper(users, UserResponseDto.class);
     }
