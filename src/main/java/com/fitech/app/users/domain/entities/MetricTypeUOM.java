@@ -16,11 +16,11 @@ public class MetricTypeUOM {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "metric_type_id", nullable = false)
     private MetricType metricType;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "unit_of_measure_id", nullable = false)
     private UnitOfMeasure unitOfMeasure;
     

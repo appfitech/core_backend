@@ -1,9 +1,9 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
-import com.fitech.app.users.application.dto.MetricTypeUnitDto;
+import com.fitech.app.users.application.dto.MetricTypeUOMDto;
 import com.fitech.app.users.application.wrappers.ResultPage;
-import com.fitech.app.users.domain.services.MetricTypeUnitService;
+import com.fitech.app.users.domain.services.MetricTypeUOMService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -15,38 +15,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/app/metric-type-units")
-public class MetricTypeUnitController extends BaseController {
+@RequestMapping("/v1/app/metric-type-uom")
+public class MetricTypeUOMController extends BaseController {
 
-    private final MetricTypeUnitService metricTypeUnitService;
+    private final MetricTypeUOMService metricTypeUomService;
 
     @Autowired
-    public MetricTypeUnitController(MetricTypeUnitService metricTypeUnitService) {
-        this.metricTypeUnitService = metricTypeUnitService;
+    public MetricTypeUOMController(MetricTypeUOMService metricTypeUomService) {
+        this.metricTypeUomService = metricTypeUomService;
     }
 
     @PostMapping
-    public ResponseEntity<MetricTypeUnitDto> create(@Valid @RequestBody MetricTypeUnitDto metricTypeUnitDto) {
-        MetricTypeUnitDto created = metricTypeUnitService.create(metricTypeUnitDto);
+    public ResponseEntity<MetricTypeUOMDto> create(@Valid @RequestBody MetricTypeUOMDto metricTypeUomDto) {
+        MetricTypeUOMDto created = metricTypeUomService.create(metricTypeUomDto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MetricTypeUnitDto> update(@PathVariable Integer id, @Valid @RequestBody MetricTypeUnitDto metricTypeUnitDto) {
-        MetricTypeUnitDto updated = metricTypeUnitService.update(id, metricTypeUnitDto);
+    public ResponseEntity<MetricTypeUOMDto> update(@PathVariable Integer id, @Valid @RequestBody MetricTypeUOMDto metricTypeUomDto) {
+        MetricTypeUOMDto updated = metricTypeUomService.update(id, metricTypeUomDto);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        metricTypeUnitService.delete(id);
+        metricTypeUomService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MetricTypeUnitDto> findById(@PathVariable Integer id) {
-        MetricTypeUnitDto metricTypeUnit = metricTypeUnitService.findById(id);
-        return ResponseEntity.ok(metricTypeUnit);
+    public ResponseEntity<MetricTypeUOMDto> findById(@PathVariable Integer id) {
+        MetricTypeUOMDto metricTypeUom = metricTypeUomService.findById(id);
+        return ResponseEntity.ok(metricTypeUom);
     }
 
     @GetMapping
@@ -54,7 +54,7 @@ public class MetricTypeUnitController extends BaseController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        ResultPage<MetricTypeUnitDto> resultPageWrapper = metricTypeUnitService.findAll(paging);
+        ResultPage<MetricTypeUOMDto> resultPageWrapper = metricTypeUomService.findAll(paging);
         Map<String, Object> response = prepareResponse(resultPageWrapper);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -65,13 +65,13 @@ public class MetricTypeUnitController extends BaseController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        ResultPage<MetricTypeUnitDto> resultPageWrapper = metricTypeUnitService.findByMetricType(metricTypeId, paging);
+        ResultPage<MetricTypeUOMDto> resultPageWrapper = metricTypeUomService.findByMetricType(metricTypeId, paging);
         Map<String, Object> response = prepareResponse(resultPageWrapper);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     protected String getResource() {
-        return "metricTypeUnits";
+        return "metricTypeUoms";
     }
 } 

@@ -6,7 +6,7 @@ import com.fitech.app.users.application.exception.StorageFileNotFoundException;
 import com.fitech.app.users.domain.entities.UserFiles;
 import com.fitech.app.users.domain.model.UserFilesDto;
 import com.fitech.app.users.domain.services.FileUploadService;
-import com.fitech.app.users.domain.services.impl.mappers.UserFilesMapper;
+import com.fitech.app.users.infrastructure.mappers.UserFilesMapper;
 import com.fitech.app.users.infrastructure.repository.UserFileRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;

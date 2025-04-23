@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MetricTypeUnitDto {
+public class MetricTypeUOMDto {
     private Integer id;
     
     @NotNull(message = "El tipo de métrica es requerido")

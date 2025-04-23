@@ -1,0 +1,132 @@
+package com.fitech.app.users.domain.services.impl;
+
+import com.fitech.app.commons.util.PaginationUtil;
+import com.fitech.app.users.application.dto.MetricTypeUOMDto;
+import com.fitech.app.users.application.exception.MetricTypeUomNotFoundException;
+import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.domain.entities.MetricType;
+import com.fitech.app.users.domain.entities.MetricTypeUOM;
+import com.fitech.app.users.domain.entities.UnitOfMeasure;
+import com.fitech.app.users.domain.services.MetricTypeUOMService;
+import com.fitech.app.users.infrastructure.repository.MetricTypeRepository;
+import com.fitech.app.users.infrastructure.repository.MetricTypeUOMRepository;
+import com.fitech.app.users.infrastructure.repository.UnitOfMeasureRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
+
+    private final MetricTypeUOMRepository metricTypeUOMRepository;
+    private final MetricTypeRepository metricTypeRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
+
+    @Autowired
+    public MetricTypeUOMServiceImpl(
+            MetricTypeUOMRepository metricTypeUOMRepository,
+            MetricTypeRepository metricTypeRepository,
+            UnitOfMeasureRepository unitOfMeasureRepository) {
+        this.metricTypeUOMRepository = metricTypeUOMRepository;
+        this.metricTypeRepository = metricTypeRepository;
+        this.unitOfMeasureRepository = unitOfMeasureRepository;
+    }
+
+    @Override
+    @Transactional
+    public MetricTypeUOMDto create(MetricTypeUOMDto metricTypeUOMDto) {
+        if (existsByMetricTypeAndUnitOfMeasure(metricTypeUOMDto.getMetricTypeId(), metricTypeUOMDto.getUnitOfMeasureId())) {
+            throw new IllegalArgumentException("Ya existe una relación entre este tipo de métrica y unidad de medida");
+        }
+
+        MetricType metricType = metricTypeRepository.findById(metricTypeUOMDto.getMetricTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("Tipo de métrica no encontrado"));
+        
+        UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(metricTypeUOMDto.getUnitOfMeasureId())
+                .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+
+        MetricTypeUOM metricTypeUOM = new MetricTypeUOM();
+        metricTypeUOM.setMetricType(metricType);
+        metricTypeUOM.setUnitOfMeasure(unitOfMeasure);
+        metricTypeUOM.setDefault(metricTypeUOMDto.isDefault());
+
+        MetricTypeUOM saved = metricTypeUOMRepository.save(metricTypeUOM);
+        return convertToDto(saved);
+    }
+
+    @Override
+    @Transactional
+    public MetricTypeUOMDto update(Integer id, MetricTypeUOMDto metricTypeUOMDto) {
+        MetricTypeUOM existing = metricTypeUOMRepository.findById(id)
+                .orElseThrow(() -> new MetricTypeUomNotFoundException("Relación tipo de métrica - unidad de medida no encontrada con ID: " + id));
+
+        if (!existing.getMetricType().getId().equals(metricTypeUOMDto.getMetricTypeId()) ||
+            !existing.getUnitOfMeasure().getId().equals(metricTypeUOMDto.getUnitOfMeasureId())) {
+            if (existsByMetricTypeAndUnitOfMeasure(metricTypeUOMDto.getMetricTypeId(), metricTypeUOMDto.getUnitOfMeasureId())) {
+                throw new IllegalArgumentException("Ya existe una relación entre este tipo de métrica y unidad de medida");
+            }
+        }
+
+        MetricType metricType = metricTypeRepository.findById(metricTypeUOMDto.getMetricTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("Tipo de métrica no encontrado"));
+        
+        UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(metricTypeUOMDto.getUnitOfMeasureId())
+                .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+
+        existing.setMetricType(metricType);
+        existing.setUnitOfMeasure(unitOfMeasure);
+        existing.setDefault(metricTypeUOMDto.isDefault());
+
+        MetricTypeUOM updated = metricTypeUOMRepository.save(existing);
+        return convertToDto(updated);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer id) {
+        if (!metricTypeUOMRepository.existsById(id)) {
+            throw new MetricTypeUomNotFoundException("Relación tipo de métrica - unidad de medida no encontrada con ID: " + id);
+        }
+        metricTypeUOMRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MetricTypeUOMDto findById(Integer id) {
+        MetricTypeUOM metricTypeUOM = metricTypeUOMRepository.findById(id)
+                .orElseThrow(() -> new MetricTypeUomNotFoundException("Relación tipo de métrica - unidad de medida no encontrada con ID: " + id));
+        return convertToDto(metricTypeUOM);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResultPage<MetricTypeUOMDto> findAll(Pageable pageable) {
+        Page<MetricTypeUOM> unitsPage = metricTypeUOMRepository.findAll(pageable);
+        return PaginationUtil.prepareResultWrapper(unitsPage, MetricTypeUOMDto.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResultPage<MetricTypeUOMDto> findByMetricType(Integer metricTypeId, Pageable pageable) {
+        Page<MetricTypeUOM> unitsPage = metricTypeUOMRepository.findByMetricTypeId(metricTypeId, pageable);
+        return PaginationUtil.prepareResultWrapper(unitsPage, MetricTypeUOMDto.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByMetricTypeAndUnitOfMeasure(Integer metricTypeId, Integer unitOfMeasureId) {
+        return metricTypeUOMRepository.existsByMetricTypeIdAndUnitOfMeasureId(metricTypeId, unitOfMeasureId);
+    }
+
+    private MetricTypeUOMDto convertToDto(MetricTypeUOM metricTypeUOM) {
+        MetricTypeUOMDto dto = new MetricTypeUOMDto();
+        dto.setId(metricTypeUOM.getId());
+        dto.setMetricTypeId(metricTypeUOM.getMetricType() != null ? metricTypeUOM.getMetricType().getId() : null);
+        dto.setUnitOfMeasureId(metricTypeUOM.getUnitOfMeasure() != null ? metricTypeUOM.getUnitOfMeasure().getId() : null);
+        dto.setDefault(metricTypeUOM.isDefault());
+        return dto;
+    }
+} 

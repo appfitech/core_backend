@@ -1138,10 +1138,10 @@
       ]
     },
     {
-      "name": "Metric Type Unit",
+      "name": "Metric Type UOM",
       "item": [
         {
-          "name": "Create Metric Type Unit",
+          "name": "Create Metric Type UOM",
           "request": {
             "method": "POST",
             "header": [
@@ -1159,7 +1159,7 @@
               "raw": "{\n    \"metricTypeId\": 1,\n    \"unitOfMeasureId\": 1,\n    \"isDefault\": true\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-units",
+              "raw": "http://localhost:8081/v1/app/metric-type-uom",
               "host": [
                 "localhost"
               ],
@@ -1167,14 +1167,14 @@
               "path": [
                 "v1",
                 "app",
-                "metric-type-units"
+                "metric-type-uom"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Get All Metric Type Units",
+          "name": "Get All Metric Type UOM",
           "request": {
             "method": "GET",
             "header": [
@@ -1184,7 +1184,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-units?page=1&size=20",
+              "raw": "http://localhost:8081/v1/app/metric-type-uom?page=1&size=20",
               "host": [
                 "localhost"
               ],
@@ -1192,7 +1192,7 @@
               "path": [
                 "v1",
                 "app",
-                "metric-type-units"
+                "metric-type-uom"
               ],
               "query": [
                 {
@@ -1209,7 +1209,7 @@
           "response": []
         },
         {
-          "name": "Get Metric Type Unit by ID",
+          "name": "Get Metric Type UOM by ID",
           "request": {
             "method": "GET",
             "header": [
@@ -1219,7 +1219,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-units/1",
+              "raw": "http://localhost:8081/v1/app/metric-type-uom/1",
               "host": [
                 "localhost"
               ],
@@ -1227,7 +1227,7 @@
               "path": [
                 "v1",
                 "app",
-                "metric-type-units",
+                "metric-type-uom",
                 "1"
               ]
             }
@@ -1235,7 +1235,7 @@
           "response": []
         },
         {
-          "name": "Update Metric Type Unit",
+          "name": "Update Metric Type UOM",
           "request": {
             "method": "PUT",
             "header": [
@@ -1253,7 +1253,7 @@
               "raw": "{\n    \"metricTypeId\": 1,\n    \"unitOfMeasureId\": 1,\n    \"isDefault\": false\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-units/1",
+              "raw": "http://localhost:8081/v1/app/metric-type-uom/1",
               "host": [
                 "localhost"
               ],
@@ -1261,7 +1261,7 @@
               "path": [
                 "v1",
                 "app",
-                "metric-type-units",
+                "metric-type-uom",
                 "1"
               ]
             }
@@ -1269,7 +1269,7 @@
           "response": []
         },
         {
-          "name": "Delete Metric Type Unit",
+          "name": "Delete Metric Type UOM",
           "request": {
             "method": "DELETE",
             "header": [
@@ -1279,7 +1279,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-units/1",
+              "raw": "http://localhost:8081/v1/app/metric-type-uom/1",
               "host": [
                 "localhost"
               ],
@@ -1287,7 +1287,7 @@
               "path": [
                 "v1",
                 "app",
-                "metric-type-units",
+                "metric-type-uom",
                 "1"
               ]
             }
@@ -1295,7 +1295,7 @@
           "response": []
         },
         {
-          "name": "Get Metric Type Units by Metric Type",
+          "name": "Get Metric Type UOM by Metric Type",
           "request": {
             "method": "GET",
             "header": [
@@ -1305,7 +1305,7 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-units/by-metric-type/1?page=1&size=20",
+              "raw": "http://localhost:8081/v1/app/metric-type-uom/by-metric-type/1?page=1&size=20",
               "host": [
                 "localhost"
               ],
@@ -1313,7 +1313,7 @@
               "path": [
                 "v1",
                 "app",
-                "metric-type-units",
+                "metric-type-uom",
                 "by-metric-type",
                 "1"
               ],

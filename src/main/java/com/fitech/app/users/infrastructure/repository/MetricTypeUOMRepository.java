@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MetricTypeUnitRepository extends JpaRepository<MetricTypeUOM, Integer> {
+public interface MetricTypeUOMRepository extends JpaRepository<MetricTypeUOM, Integer> {
     Page<MetricTypeUOM> findByMetricTypeId(Integer metricTypeId, Pageable pageable);
     boolean existsByMetricTypeIdAndUnitOfMeasureId(Integer metricTypeId, Integer unitOfMeasureId);
 } 

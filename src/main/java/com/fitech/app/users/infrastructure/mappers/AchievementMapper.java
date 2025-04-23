@@ -1,4 +1,4 @@
-package com.fitech.app.users.domain.services.impl.mappers;
+package com.fitech.app.users.infrastructure.mappers;
 
 import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.users.domain.entities.Achievement;

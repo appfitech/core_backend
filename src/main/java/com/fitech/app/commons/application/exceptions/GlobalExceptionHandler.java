@@ -29,6 +29,11 @@ public class GlobalExceptionHandler {
     log.error("User not found: {}", ex.getMessage());
     return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
   }
+  @ExceptionHandler(MetricTypeUomNotFoundException.class)
+  public ResponseEntity<ErrorResponseDto> handleMetricTypeUomNotFoundException(UserNotFoundException ex, WebRequest request) {
+    log.error("Metric not found : {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getDescription(false), ex);
+  }
 
   @ExceptionHandler(DuplicatedUserException.class)
   public ResponseEntity<ErrorResponseDto> handleDuplicatedUserException(DuplicatedUserException ex, WebRequest request) {
