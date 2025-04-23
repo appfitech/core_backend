@@ -1,7 +1,7 @@
 package com.fitech.app.users.domain.services;
 
-import com.fitech.app.users.application.dto.MetricTypeUOMDto;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.domain.model.MetricTypeUOMDto;
+import com.fitech.app.users.application.dto.ResultPage;
 import org.springframework.data.domain.Pageable;
 
 public interface MetricTypeUOMService {

@@ -1,8 +1,6 @@
 package com.fitech.app.commons.application.controllers;
 
-import com.fitech.app.commons.util.MapperUtil;
-import com.fitech.app.users.application.wrappers.ResultPage;
-import org.springframework.data.domain.Page;
+import com.fitech.app.users.application.dto.ResultPage;
 
 import java.util.HashMap;
 import java.util.Map;

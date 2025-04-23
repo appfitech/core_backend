@@ -1,4 +1,4 @@
-package com.fitech.app.users.infrastructure.utils;
+package com.fitech.app.users.infrastructure.security;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

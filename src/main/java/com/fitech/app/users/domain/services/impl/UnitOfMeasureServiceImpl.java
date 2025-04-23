@@ -1,9 +1,9 @@
 package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.PaginationUtil;
-import com.fitech.app.users.application.dto.UnitOfMeasureDto;
+import com.fitech.app.users.domain.model.UnitOfMeasureDto;
 import com.fitech.app.users.application.exception.UnitOfMeasurerNotFoundException;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.entities.UnitOfMeasure;
 import com.fitech.app.users.domain.services.UnitOfMeasureService;
 import com.fitech.app.users.infrastructure.repository.UnitOfMeasureRepository;

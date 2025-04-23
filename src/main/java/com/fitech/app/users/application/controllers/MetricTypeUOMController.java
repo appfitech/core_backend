@@ -1,8 +1,8 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
-import com.fitech.app.users.application.dto.MetricTypeUOMDto;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.domain.model.MetricTypeUOMDto;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.services.MetricTypeUOMService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

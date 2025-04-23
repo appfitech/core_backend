@@ -1,6 +1,6 @@
 package com.fitech.app.users.application.controllers;
 
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.model.UserTypeDto;
 import com.fitech.app.users.domain.services.UserTypeService;
 import org.springframework.beans.factory.annotation.Autowired;

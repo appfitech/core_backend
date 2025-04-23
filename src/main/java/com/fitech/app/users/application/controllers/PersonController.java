@@ -2,10 +2,8 @@ package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
 import com.fitech.app.commons.util.MapperUtil;
-import com.fitech.app.commons.util.PaginationUtil;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.model.PersonDto;
-import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.services.PersonService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

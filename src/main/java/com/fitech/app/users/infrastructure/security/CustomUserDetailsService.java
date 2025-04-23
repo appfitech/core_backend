@@ -1,4 +1,4 @@
-package com.fitech.app.users.application.security;
+package com.fitech.app.users.infrastructure.security;
 
 import com.fitech.app.users.domain.entities.User;
 import com.fitech.app.users.infrastructure.repository.UserRepository;

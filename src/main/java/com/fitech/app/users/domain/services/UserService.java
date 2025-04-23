@@ -1,7 +1,7 @@
 package com.fitech.app.users.domain.services;
 
-import com.fitech.app.users.application.dto.LoginResponseDto;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.domain.model.LoginResponseDto;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
 import com.fitech.app.users.domain.entities.User;

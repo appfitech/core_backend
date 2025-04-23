@@ -1,7 +1,7 @@
 package com.fitech.app.users.application.controllers;
 
-import com.fitech.app.users.application.dto.LoginRequestDto;
-import com.fitech.app.users.application.dto.LoginResponseDto;
+import com.fitech.app.users.domain.model.LoginRequestDto;
+import com.fitech.app.users.domain.model.LoginResponseDto;
 import com.fitech.app.users.domain.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

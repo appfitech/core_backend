@@ -1,5 +1,5 @@
 package com.fitech.app.commons.util;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import org.springframework.data.domain.Page;
 
 public class PaginationUtil {

@@ -1,16 +1,12 @@
 package com.fitech.app.users.application.controllers;
 
 import com.fitech.app.commons.application.controllers.BaseController;
-import com.fitech.app.commons.util.MapperUtil;
-import com.fitech.app.commons.util.PaginationUtil;
-import com.fitech.app.users.application.dto.LoginRequestDto;
-import com.fitech.app.users.application.dto.LoginResponseDto;
+import com.fitech.app.users.domain.model.LoginRequestDto;
+import com.fitech.app.users.domain.model.LoginResponseDto;
 import com.fitech.app.users.application.exception.UserNotFoundException;
-import com.fitech.app.users.application.wrappers.ResultPage;
-import com.fitech.app.users.domain.entities.User;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
-import com.fitech.app.users.domain.model.UserLoginRequest;
 import com.fitech.app.users.domain.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

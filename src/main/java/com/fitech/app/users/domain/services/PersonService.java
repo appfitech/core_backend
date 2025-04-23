@@ -1,6 +1,6 @@
 package com.fitech.app.users.domain.services;
 
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.model.PersonDto;
 import com.fitech.app.users.domain.entities.Person;
 import org.springframework.data.domain.Pageable;

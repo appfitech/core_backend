@@ -1,7 +1,5 @@
-package com.fitech.app.users.application.security;
+package com.fitech.app.users.infrastructure.security;
 
-import com.fitech.app.users.domain.services.impl.FileUploadServiceImpl;
-import com.fitech.app.users.infrastructure.security.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

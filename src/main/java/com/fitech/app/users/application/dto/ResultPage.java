@@ -1,4 +1,4 @@
-package com.fitech.app.users.application.wrappers;
+package com.fitech.app.users.application.dto;
 
 
 import java.util.List;

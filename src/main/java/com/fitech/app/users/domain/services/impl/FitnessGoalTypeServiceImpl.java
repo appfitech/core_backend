@@ -2,7 +2,7 @@ package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.MapperUtil;
 import com.fitech.app.commons.util.PaginationUtil;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.entities.FitnessGoalType;
 import com.fitech.app.users.domain.model.FitnessGoalTypeDto;
 import com.fitech.app.users.domain.services.FitnessGoalTypeService;

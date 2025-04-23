@@ -1,9 +1,9 @@
 package com.fitech.app.users.domain.services.impl;
 
 import com.fitech.app.commons.util.PaginationUtil;
-import com.fitech.app.users.application.dto.MetricTypeUOMDto;
+import com.fitech.app.users.domain.model.MetricTypeUOMDto;
 import com.fitech.app.users.application.exception.MetricTypeUomNotFoundException;
-import com.fitech.app.users.application.wrappers.ResultPage;
+import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.entities.MetricType;
 import com.fitech.app.users.domain.entities.MetricTypeUOM;
 import com.fitech.app.users.domain.entities.UnitOfMeasure;

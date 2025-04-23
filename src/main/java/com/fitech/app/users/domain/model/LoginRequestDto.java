@@ -1,4 +1,4 @@
-package com.fitech.app.users.application.dto;
+package com.fitech.app.users.domain.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

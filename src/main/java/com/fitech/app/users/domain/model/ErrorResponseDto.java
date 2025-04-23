@@ -1,4 +1,4 @@
-package com.fitech.app.users.application.dto;
+package com.fitech.app.users.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

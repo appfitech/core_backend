@@ -1,6 +1,6 @@
 package com.fitech.app.commons.application.exceptions;
 
-import com.fitech.app.users.application.dto.ErrorResponseDto;
+import com.fitech.app.users.domain.model.ErrorResponseDto;
 import com.fitech.app.users.application.exception.*;
 import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;

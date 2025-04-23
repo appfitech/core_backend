@@ -1,4 +1,4 @@
-package com.fitech.app.users.application.dto;
+package com.fitech.app.users.domain.model;
 
 import com.fitech.app.users.domain.model.UserResponseDto;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.fitech.app.users.application.security;
+package com.fitech.app.users.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
