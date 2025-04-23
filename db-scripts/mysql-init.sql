@@ -61,55 +61,55 @@ INSERT INTO unit_of_measure (name, symbol, description) VALUES
 
 -- Relacionar métricas con sus unidades de medida correspondientes
 -- Peso
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Peso' AND u.symbol = 'kg';
 
 -- Masa muscular
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Masa muscular' AND u.symbol = 'kg';
 
 -- Grasa corporal
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Grasa corporal' AND u.symbol = '%';
 
 -- IMC
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'IMC' AND u.symbol = 'kg/m²';
 
 -- Edad metabólica
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Edad metabólica' AND u.symbol = 'años';
 
 -- Grasa visceral
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Grasa visceral' AND u.symbol = '%';
 
 -- % de agua
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = '% de agua' AND u.symbol = '%';
 
 -- Masa ósea
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Masa ósea' AND u.symbol = 'kg';
 
 -- Frecuencia cardíaca en reposo
-INSERT INTO metric_type_unit (metric_type_id, unit_of_measure_id, is_default) 
+INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default) 
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Frecuencia cardíaca en reposo' AND u.symbol = 'lpm';

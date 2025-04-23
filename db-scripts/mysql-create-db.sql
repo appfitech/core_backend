@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS unit_of_measure (
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- Crear tabla de relación entre métricas y unidades de medida
-CREATE TABLE IF NOT EXISTS metric_type_unit (
+CREATE TABLE IF NOT EXISTS metric_type_uom (
     id INT AUTO_INCREMENT PRIMARY KEY,
     metric_type_id INT NOT NULL,
     unit_of_measure_id INT NOT NULL,

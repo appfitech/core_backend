@@ -32,19 +32,19 @@ public class UnitOfMeasureController extends BaseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UnitOfMeasureDto> update(@PathVariable Long id, @Valid @RequestBody UnitOfMeasureDto unitOfMeasureDto) {
+    public ResponseEntity<UnitOfMeasureDto> update(@PathVariable Integer id, @Valid @RequestBody UnitOfMeasureDto unitOfMeasureDto) {
         UnitOfMeasureDto updatedUnit = unitOfMeasureService.update(id, unitOfMeasureDto);
         return ResponseEntity.ok(updatedUnit);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         unitOfMeasureService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UnitOfMeasureDto> findById(@PathVariable Long id) {
+    public ResponseEntity<UnitOfMeasureDto> findById(@PathVariable Integer id) {
         UnitOfMeasureDto unitOfMeasure = unitOfMeasureService.findById(id);
         return ResponseEntity.ok(unitOfMeasure);
     }

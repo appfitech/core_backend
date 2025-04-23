@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UnitOfMeasureDto {
-    private Long id;
+    private Integer id;
     
     @NotBlank(message = "El nombre es requerido")
     @Size(max = 50, message = "El nombre no puede exceder los 50 caracteres")

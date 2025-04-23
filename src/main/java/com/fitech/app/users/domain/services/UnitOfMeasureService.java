@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface UnitOfMeasureService {
     UnitOfMeasureDto create(UnitOfMeasureDto unitOfMeasureDto);
-    UnitOfMeasureDto update(Long id, UnitOfMeasureDto unitOfMeasureDto);
-    void delete(Long id);
-    UnitOfMeasureDto findById(Long id);
+    UnitOfMeasureDto update(Integer id, UnitOfMeasureDto unitOfMeasureDto);
+    void delete(Integer id);
+    UnitOfMeasureDto findById(Integer id);
     ResultPage<UnitOfMeasureDto> findAll(Pageable pageable);
     boolean existsByName(String name);
     boolean existsBySymbol(String symbol);

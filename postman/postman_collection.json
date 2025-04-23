@@ -1138,6 +1138,202 @@
       ]
     },
     {
+      "name": "Metric Type Unit",
+      "item": [
+        {
+          "name": "Create Metric Type Unit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"metricTypeId\": 1,\n    \"unitOfMeasureId\": 1,\n    \"isDefault\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type-units",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "metric-type-units"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Metric Type Units",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type-units?page=1&size=20",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "metric-type-units"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Metric Type Unit by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type-units/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "metric-type-units",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Metric Type Unit",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"metricTypeId\": 1,\n    \"unitOfMeasureId\": 1,\n    \"isDefault\": false\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type-units/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "metric-type-units",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Metric Type Unit",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type-units/1",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "metric-type-units",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Metric Type Units by Metric Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8081/v1/app/metric-type-units/by-metric-type/1?page=1&size=20",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "v1",
+                "app",
+                "metric-type-units",
+                "by-metric-type",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "size",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Upload File",
       "item": [
         {
@@ -1506,7 +1702,7 @@
       {
         "key": "token",
         "value": "{{auth_token}}",
-        "type": "string"
+      "type": "string"
       }
     ]
   },
