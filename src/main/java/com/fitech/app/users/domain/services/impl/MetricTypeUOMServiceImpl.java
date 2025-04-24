@@ -44,14 +44,14 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
     @Transactional
     public MetricTypeUOMDto create(MetricTypeUOMDto metricTypeUOMDto) {
         if (existsByMetricTypeAndUnitOfMeasure(metricTypeUOMDto.getMetricTypeId(), metricTypeUOMDto.getUnitOfMeasureId())) {
-            throw new DuplicatedMetricTypeUOMException("Ya existe una relación entre el tipo de métrica ID: " + metricTypeUOMDto.getMetricTypeId() + " y la unidad de medida ID: " + metricTypeUOMDto.getUnitOfMeasureId());
+            throw new DuplicatedMetricTypeUOMException("A relationship already exists between metric type ID: " + metricTypeUOMDto.getMetricTypeId() + " and unit of measure ID: " + metricTypeUOMDto.getUnitOfMeasureId());
         }
 
         MetricType metricType = metricTypeRepository.findById(metricTypeUOMDto.getMetricTypeId())
-                .orElseThrow(() -> new EntityNotFoundException("Tipo de métrica no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Metric type not found"));
         
         UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(metricTypeUOMDto.getUnitOfMeasureId())
-                .orElseThrow(() -> new UnitOfMeasureNotFoundException("Unidad de medida no encontrada con ID: " + metricTypeUOMDto.getUnitOfMeasureId()));
+                .orElseThrow(() -> new UnitOfMeasureNotFoundException("Unit of measure not found with ID: " + metricTypeUOMDto.getUnitOfMeasureId()));
 
         MetricTypeUOM metricTypeUOM = new MetricTypeUOM();
         metricTypeUOM.setMetricType(metricType);
@@ -66,20 +66,20 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
     @Transactional
     public MetricTypeUOMDto update(Integer id, MetricTypeUOMDto metricTypeUOMDto) {
         MetricTypeUOM existing = metricTypeUOMRepository.findById(id)
-                .orElseThrow(() -> new MetricTypeUomNotFoundException("Relación tipo de métrica - unidad de medida no encontrada con ID: " + id));
+                .orElseThrow(() -> new MetricTypeUomNotFoundException("Metric type - unit of measure relationship not found with ID: " + id));
 
         if (!existing.getMetricType().getId().equals(metricTypeUOMDto.getMetricTypeId()) ||
             !existing.getUnitOfMeasure().getId().equals(metricTypeUOMDto.getUnitOfMeasureId())) {
             if (existsByMetricTypeAndUnitOfMeasure(metricTypeUOMDto.getMetricTypeId(), metricTypeUOMDto.getUnitOfMeasureId())) {
-                throw new IllegalArgumentException("Ya existe una relación entre este tipo de métrica y unidad de medida");
+                throw new DuplicatedMetricTypeUOMException("A relationship already exists between metric type ID: " + metricTypeUOMDto.getMetricTypeId() + " and unit of measure ID: " + metricTypeUOMDto.getUnitOfMeasureId());
             }
         }
 
         MetricType metricType = metricTypeRepository.findById(metricTypeUOMDto.getMetricTypeId())
-                .orElseThrow(() -> new EntityNotFoundException("Tipo de métrica no encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Metric type not found"));
         
         UnitOfMeasure unitOfMeasure = unitOfMeasureRepository.findById(metricTypeUOMDto.getUnitOfMeasureId())
-                .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+                .orElseThrow(() -> new UnitOfMeasureNotFoundException("Unit of measure not found with ID: " + metricTypeUOMDto.getUnitOfMeasureId()));
 
         existing.setMetricType(metricType);
         existing.setUnitOfMeasure(unitOfMeasure);
@@ -93,7 +93,7 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
     @Transactional
     public void delete(Integer id) {
         if (!metricTypeUOMRepository.existsById(id)) {
-            throw new MetricTypeUomNotFoundException("Relación tipo de métrica - unidad de medida no encontrada con ID: " + id);
+            throw new MetricTypeUomNotFoundException("Metric type - unit of measure relationship not found with ID: " + id);
         }
         metricTypeUOMRepository.deleteById(id);
     }
@@ -102,7 +102,7 @@ public class MetricTypeUOMServiceImpl implements MetricTypeUOMService {
     @Transactional(readOnly = true)
     public MetricTypeUOMDto findById(Integer id) {
         MetricTypeUOM metricTypeUOM = metricTypeUOMRepository.findById(id)
-                .orElseThrow(() -> new MetricTypeUomNotFoundException("Relación tipo de métrica - unidad de medida no encontrada con ID: " + id));
+                .orElseThrow(() -> new MetricTypeUomNotFoundException("Metric type - unit of measure relationship not found with ID: " + id));
         return convertToDto(metricTypeUOM);
     }
 
