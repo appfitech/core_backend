@@ -24,11 +24,38 @@
   height: 48px;
   font-size: 16px;
   position: relative;
+  margin-bottom: 16px;
   
   .spinner {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+.register-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.register-text {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+}
+
+.register-link {
+  color: #3f51b5;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 4px 8px;
+  
+  &:hover {
+    background-color: rgba(63, 81, 181, 0.04);
   }
 }
 

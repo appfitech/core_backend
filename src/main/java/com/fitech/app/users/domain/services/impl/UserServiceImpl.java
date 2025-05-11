@@ -207,4 +207,9 @@ public class UserServiceImpl implements UserService {
         
         return response;
     }
+
+    @Override
+    public Boolean emailAlreadyExists(String email) {
+        return userRepository.existsByPersonEmail(email);
+    }
 }

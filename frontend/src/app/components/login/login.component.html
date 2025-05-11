@@ -30,6 +30,13 @@
           <mat-spinner diameter="20" *ngIf="isLoading" class="spinner"></mat-spinner>
           <span *ngIf="!isLoading">Iniciar Sesión</span>
         </button>
+
+        <div class="register-section">
+          <span class="register-text">¿No tienes cuenta?</span>
+          <button mat-button type="button" (click)="router.navigate(['/register'])" class="register-link">
+            Regístrate aquí
+          </button>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>

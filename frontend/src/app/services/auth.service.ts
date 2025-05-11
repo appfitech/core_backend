@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 export interface LoginResponse {
   token: string;
@@ -23,13 +24,45 @@ export interface LoginResponse {
   };
 }
 
+export interface User {
+  id: number;
+  username: string;
+  type: number;
+  person: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    documentNumber: string;
+  };
+}
+
+export interface RegisterRequest {
+  username: string;
+  password: string;
+  person: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    documentNumber: string;
+  };
+  type: number;
+}
+
+export interface AvailabilityCheck {
+  usernameExists: boolean;
+  emailExists: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8081/v1/app/auth';
+  private apiUrl = `${environment.apiUrl}/v1/app`;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  private currentUserSubject = new BehaviorSubject<any>(null);
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -39,7 +72,7 @@ export class AuthService {
     const token = localStorage.getItem('token');
     if (token) {
       this.isAuthenticatedSubject.next(true);
-      const user = localStorage.getItem('user');
+      const user = localStorage.getItem('currentUser');
       if (user) {
         this.currentUserSubject.next(JSON.parse(user));
       }
@@ -47,20 +80,24 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password })
+    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, { username, password })
       .pipe(
         tap(response => {
           localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
+          localStorage.setItem('currentUser', JSON.stringify(response.user));
           this.isAuthenticatedSubject.next(true);
           this.currentUserSubject.next(response.user);
         })
       );
   }
 
+  register(userData: RegisterRequest): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/user`, userData);
+  }
+
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('currentUser');
     this.isAuthenticatedSubject.next(false);
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
@@ -70,11 +107,23 @@ export class AuthService {
     return this.isAuthenticatedSubject.asObservable();
   }
 
-  getCurrentUser(): Observable<any> {
+  getCurrentUser(): Observable<User | null> {
     return this.currentUserSubject.asObservable();
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  checkUsernameExists(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/auth/check-username?username=${username}`);
+  }
+
+  checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/auth/check-email?email=${email}`);
+  }
+
+  checkAvailability(username: string, email: string): Observable<AvailabilityCheck> {
+    return this.http.get<AvailabilityCheck>(`${this.apiUrl}/auth/check-availability?username=${username}&email=${email}`);
   }
 }

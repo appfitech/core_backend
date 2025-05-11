@@ -13,6 +13,7 @@ public interface UserService {
     UserDto update(Integer id, UserDto dto);
     UserResponseDto getByUsernameAndPassword(UserLoginRequest loginRequest);
     Boolean usernameAlreadyExistsByOrgId(String username, Integer orgId);
+    Boolean emailAlreadyExists(String email);
     UserResponseDto getById(Integer id);
     User getUserEntityById(Integer id);
     ResultPage<UserResponseDto> getAll(Pageable paging);
