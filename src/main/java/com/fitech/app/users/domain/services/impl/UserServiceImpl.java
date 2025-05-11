@@ -198,18 +198,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponseDto login(String username, String password) {
         if (username == null || password == null) {
-            throw new UserNotFoundException("Username and password are required");
+            throw new InvalidPasswordException("Usuario y contraseña son requeridos");
         }
 
         User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new UserNotFoundException("Invalid username or password"));
+            .orElseThrow(() -> new InvalidPasswordException("Usuario o contraseña incorrectos"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new UserNotFoundException("Invalid username or password");
+            throw new InvalidPasswordException("Usuario o contraseña incorrectos");
         }
 
         if (!user.getIsEmailVerified()) {
-            throw new EmailNotVerifiedException("Por favor verifica tu email antes de iniciar sesión");
+            throw new EmailNotVerifiedException("Tu cuenta no está verificada. Por favor revisa tu correo electrónico para verificar tu cuenta antes de iniciar sesión");
         }
 
         String token = jwtTokenProvider.generateToken(username);
