@@ -89,6 +89,12 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getDescription(false), ex);
   }
 
+  @ExceptionHandler(EmailNotVerifiedException.class)
+  public ResponseEntity<ErrorResponseDto> handleEmailNotVerifiedException(EmailNotVerifiedException ex, WebRequest request) {
+    log.error("Email not verified: {}", ex.getMessage());
+    return buildErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request.getDescription(false), ex);
+  }
+
   private ResponseEntity<ErrorResponseDto> buildErrorResponse(HttpStatus status, String message, String path, Exception ex) {
     ErrorResponseDto.ErrorResponseDtoBuilder builder = ErrorResponseDto.builder()
       .timestamp(LocalDateTime.now())

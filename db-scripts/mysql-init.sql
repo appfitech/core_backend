@@ -113,3 +113,9 @@ INSERT INTO metric_type_uom (metric_type_id, unit_of_measure_id, is_default)
 SELECT m.id, u.id, TRUE 
 FROM metric_types m, unit_of_measure u 
 WHERE m.name = 'Frecuencia cardíaca en reposo' AND u.symbol = 'lpm';
+
+-- Primero eliminamos los usuarios
+DELETE FROM user WHERE username != 'admin';
+
+-- Luego eliminamos las personas
+DELETE FROM person WHERE first_name != 'Admin';

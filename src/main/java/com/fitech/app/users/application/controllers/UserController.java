@@ -8,6 +8,7 @@ import com.fitech.app.users.application.dto.ResultPage;
 import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
 import com.fitech.app.users.domain.services.UserService;
+import com.fitech.app.users.infrastructure.email.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,11 +25,13 @@ import java.util.logging.Logger;
 @RestController
 public class UserController extends BaseController {
     private final UserService userService;
+    private final EmailService emailService;
     private static final Logger log = Logger.getLogger(UserController.class.getName());
     
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/login")
@@ -69,11 +72,34 @@ public class UserController extends BaseController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/verify-email", produces = "application/json")
-    public ResponseEntity<UserResponseDto> verifyEmail(@RequestParam String token) {
-        log.info("Email verification request for token: " + token);
-        UserResponseDto userDto = userService.verifyEmail(token);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    @GetMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestParam String token) {
+        try {
+            UserResponseDto user = userService.verifyEmail(token);
+            return ResponseEntity.ok(Map.of(
+                "message", "Email verificado exitosamente",
+                "user", user
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "error", e.getMessage()
+            ));
+        }
+    }
+
+    @PostMapping("/test-email")
+    public ResponseEntity<?> testEmail(@RequestParam String email) {
+        try {
+            emailService.sendTestEmail(email);
+            return ResponseEntity.ok(Map.of(
+                "message", "Email de prueba enviado exitosamente a " + email
+            ));
+        } catch (Exception e) {
+            log.severe("Error al enviar email de prueba: " + e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of(
+                "error", "Error al enviar el email: " + e.getMessage()
+            ));
+        }
     }
 
     @Override

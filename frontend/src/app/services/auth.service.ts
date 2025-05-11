@@ -126,4 +126,8 @@ export class AuthService {
   checkAvailability(username: string, email: string): Observable<AvailabilityCheck> {
     return this.http.get<AvailabilityCheck>(`${this.apiUrl}/auth/check-availability?username=${username}&email=${email}`);
   }
+
+  verifyEmail(token: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user/verify-email?token=${token}`);
+  }
 }

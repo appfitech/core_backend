@@ -17,6 +17,6 @@ public interface UserService {
     UserResponseDto getById(Integer id);
     User getUserEntityById(Integer id);
     ResultPage<UserResponseDto> getAll(Pageable paging);
-    UserResponseDto verifyEmail(String token);
+    UserResponseDto verifyEmail(String token) throws Exception;
     LoginResponseDto login(String username, String password);
 }

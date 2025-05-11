@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { authGuard } from './guards/auth.guard';
 import { RegisterSuccessComponent } from './components/register-success/register-success.component';
+import { EmailVerificationComponent } from './components/email-verification/email-verification.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
     path: 'dashboard',
     loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [authGuard]
+  },
+  {
+    path: 'verify-email',
+    component: EmailVerificationComponent
   },
   {
     path: '',

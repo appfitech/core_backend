@@ -18,6 +18,7 @@ import com.fitech.app.users.domain.model.UserDto;
 import com.fitech.app.users.domain.model.UserResponseDto;
 import com.fitech.app.users.infrastructure.security.JwtTokenProvider;
 import com.fitech.app.users.infrastructure.security.PasswordEncoderUtil;
+import com.fitech.app.users.infrastructure.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.fitech.app.users.application.exception.EmailNotVerifiedException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,16 +40,20 @@ public class UserServiceImpl implements UserService {
     private final PersonService personService;
     private final PasswordEncoderUtil passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final EmailService emailService;
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            PersonService personService,
                            PasswordEncoderUtil passwordEncoder,
-                           JwtTokenProvider jwtTokenProvider) {
+                           JwtTokenProvider jwtTokenProvider,
+                           EmailService emailService) {
         this.userRepository = userRepository;
         this.personService = personService;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.emailService = emailService;
     }
 
     @Override
@@ -52,6 +61,7 @@ public class UserServiceImpl implements UserService {
     public UserDto save(UserDto userDto) {
         validateUserCreation(userDto);
         Person person = personService.save(userDto.getPerson());
+        
         // Create and configure the User entity
         User user = new User();
         user.setUsername(userDto.getUsername());
@@ -63,6 +73,16 @@ public class UserServiceImpl implements UserService {
         generateVerificationToken(user);
         
         User savedUser = userRepository.save(user);
+
+        // Enviar email de verificación en un hilo separado
+        try {
+            emailService.sendVerificationEmail(person.getEmail(), user.getEmailVerificationToken());
+        } catch (IOException e) {
+            // Log the error but don't fail the registration
+            // The user can request a new verification email later
+            log.error("Error sending verification email to " + person.getEmail(), e);
+        }
+
         return MapperUtil.map(savedUser, UserDto.class);
     }
 
@@ -158,32 +178,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseDto verifyEmail(String token) {
-        // Find user by verification token
-        Optional<User> userOpt = userRepository.findByEmailVerificationToken(token);
-        
-        if (userOpt.isEmpty()) {
-            throw new IllegalArgumentException("Invalid verification token");
-        }
-        
-        User user = userOpt.get();
-        
-        // Check if token is expired
+    public UserResponseDto verifyEmail(String token) throws Exception {
+        User user = userRepository.findByEmailVerificationToken(token)
+            .orElseThrow(() -> new Exception("Token de verificación inválido"));
+
         if (user.getEmailTokenExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Verification token has expired");
+            throw new Exception("Token de verificación expirado");
         }
-        
-        // Update user verification status
+
         user.setIsEmailVerified(true);
         user.setEmailVerificationToken(null);
         user.setEmailTokenExpiresAt(null);
         user.setUpdatedAt(LocalDateTime.now());
-        
-        // Save the updated user
-        user = userRepository.save(user);
-        
-        // Return the updated user as DTO
-        return MapperUtil.map(user, UserResponseDto.class);
+
+        User updatedUser = userRepository.save(user);
+        return MapperUtil.map(updatedUser, UserResponseDto.class);
     }
 
     @Override
@@ -197,6 +206,10 @@ public class UserServiceImpl implements UserService {
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new UserNotFoundException("Invalid username or password");
+        }
+
+        if (!user.getIsEmailVerified()) {
+            throw new EmailNotVerifiedException("Por favor verifica tu email antes de iniciar sesión");
         }
 
         String token = jwtTokenProvider.generateToken(username);
