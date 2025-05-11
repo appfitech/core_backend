@@ -3,38 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { User } from '../models/user.model';
 
 export interface LoginResponse {
   token: string;
-  user: {
-    id: number;
-    username: string;
-    type: number;
-    createdAt: number[];
-    updatedAt: number[];
-    isEmailVerified: boolean;
-    person: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      documentNumber: string;
-      phoneNumber: string;
-      email: string;
-    };
-  };
-}
-
-export interface User {
-  id: number;
-  username: string;
-  type: number;
-  person: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phoneNumber: string;
-    documentNumber: string;
-  };
+  user: User;
 }
 
 export interface RegisterRequest {
@@ -47,7 +20,7 @@ export interface RegisterRequest {
     phoneNumber: string;
     documentNumber: string;
   };
-  type: number;
+  type: 'TRAINER' | 'CLIENT';
 }
 
 export interface AvailabilityCheck {
@@ -124,7 +97,9 @@ export class AuthService {
   }
 
   checkAvailability(username: string, email: string): Observable<AvailabilityCheck> {
-    return this.http.get<AvailabilityCheck>(`${this.apiUrl}/auth/check-availability?username=${username}&email=${email}`);
+    return this.http.get<AvailabilityCheck>(`${this.apiUrl}/auth/check-availability`, {
+      params: { username, email }
+    });
   }
 
   verifyEmail(token: string): Observable<any> {

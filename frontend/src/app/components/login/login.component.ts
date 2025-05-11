@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +50,15 @@ export class LoginComponent {
       
       this.authService.login(username, password).subscribe({
         next: () => {
-          this.router.navigate(['/dashboard']);
+          this.authService.getCurrentUser().pipe(take(1)).subscribe(user => {
+            if (user) {
+              if (user.type === 'TRAINER') {
+                this.router.navigate(['/dashboard/trainer']);
+              } else {
+                this.router.navigate(['/dashboard/client']);
+              }
+            }
+          });
         },
         error: (error) => {
           this.isLoading = false;
