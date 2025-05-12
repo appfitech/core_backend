@@ -38,14 +38,14 @@ import { BaseDashboardComponent } from './base-dashboard.component';
 
           <mat-card class="dashboard-card">
             <mat-card-header>
-              <mat-icon mat-card-avatar>directions_run</mat-icon>
-              <mat-card-title>Mis Entrenamientos</mat-card-title>
+              <mat-icon mat-card-avatar>library_books</mat-icon>
+              <mat-card-title>Biblioteca de Ejercicios</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p>Accede a tus rutinas y planes de entrenamiento</p>
+              <p>Explora y consulta ejercicios para tus rutinas</p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-raised-button color="primary" routerLink="/dashboard/workouts">Ver Entrenamientos</button>
+              <button mat-raised-button color="primary" routerLink="/dashboard/exercise-library">Ver Biblioteca</button>
             </mat-card-actions>
           </mat-card>
 
@@ -128,7 +128,7 @@ import { BaseDashboardComponent } from './base-dashboard.component';
 export class ClientDashboardComponent extends BaseDashboardComponent {
   override menuItems = [
     { icon: 'fitness_center', label: 'Mis Métricas', route: '/dashboard/metrics' },
-    { icon: 'directions_run', label: 'Mis Entrenamientos', route: '/dashboard/workouts' },
+    { icon: 'library_books', label: 'Biblioteca de Ejercicios', route: '/dashboard/exercise-library' },
     { icon: 'restaurant', label: 'Mi Dieta', route: '/dashboard/diet' },
     { icon: 'trending_up', label: 'Mi Progreso', route: '/dashboard/progress' },
     { icon: 'people', label: 'Mis Entrenadores', route: '/dashboard/trainers' }

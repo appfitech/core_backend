@@ -23,6 +23,9 @@ public class UserDto implements Serializable {
     private String emailVerificationToken;
     private LocalDateTime emailTokenExpiresAt;
     private PersonDto person;
+    private boolean isPremium = false;
+    private PremiumBy premiumBy = PremiumBy.NONE;
+
     public UserDto() {
     }
 
@@ -129,5 +132,21 @@ public class UserDto implements Serializable {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
+    public PremiumBy getPremiumBy() {
+        return premiumBy;
+    }
+
+    public void setPremiumBy(PremiumBy premiumBy) {
+        this.premiumBy = premiumBy;
     }
 }

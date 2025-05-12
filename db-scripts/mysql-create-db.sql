@@ -56,6 +56,8 @@ CREATE TABLE IF NOT EXISTS user (
   email_token_expires_at DATETIME,
   person_id INT,
   type INT DEFAULT 0, -- 0: Cliente, 1: Entrenador, 2: Soporte
+  is_premium BOOLEAN DEFAULT FALSE,
+  premium_by VARCHAR(20) DEFAULT 'NONE',
   FOREIGN KEY (person_id) REFERENCES person(id),
   FOREIGN KEY (type) REFERENCES user_type(id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -12,6 +12,8 @@ public class UserResponseDto implements Serializable {
     private LocalDateTime updatedAt;
     private Boolean isEmailVerified;
     private PersonDto person;
+    private boolean isPremium = false;
+    private PremiumBy premiumBy = PremiumBy.NONE;
 
     public UserResponseDto() {
     }
@@ -72,6 +74,22 @@ public class UserResponseDto implements Serializable {
         this.person = person;
     }
 
+    public boolean isPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(boolean premium) {
+        isPremium = premium;
+    }
+
+    public PremiumBy getPremiumBy() {
+        return premiumBy;
+    }
+
+    public void setPremiumBy(PremiumBy premiumBy) {
+        this.premiumBy = premiumBy;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -87,6 +105,8 @@ public class UserResponseDto implements Serializable {
                 ", updatedAt=" + updatedAt +
                 ", isEmailVerified=" + isEmailVerified +
                 ", person=" + person +
+                ", isPremium=" + isPremium +
+                ", premiumBy=" + premiumBy +
                 '}';
     }
 } 
