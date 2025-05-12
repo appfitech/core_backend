@@ -39,11 +39,21 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>DNI</mat-label>
-            <input matInput formControlName="documentNumber" required>
-            <mat-error>{{ getErrorMessage('documentNumber') }}</mat-error>
+            <mat-label>Tipo de Documento</mat-label>
+            <mat-select formControlName="documentType" required>
+              <mat-option *ngFor="let type of documentTypes" [value]="type.value">
+                {{ type.label }}
+              </mat-option>
+            </mat-select>
+            <mat-error>{{ getErrorMessage('documentType') }}</mat-error>
           </mat-form-field>
         </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número de Documento</mat-label>
+          <input matInput formControlName="documentNumber" required>
+          <mat-error>{{ getErrorMessage('documentNumber') }}</mat-error>
+        </mat-form-field>
 
         <div class="user-type-section">
           <label class="user-type-label">Tipo de Usuario</label>

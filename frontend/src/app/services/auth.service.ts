@@ -18,6 +18,7 @@ export interface RegisterRequest {
     lastName: string;
     email: string;
     phoneNumber: string;
+    documentType: string;
     documentNumber: string;
   };
   type: 'TRAINER' | 'CLIENT';

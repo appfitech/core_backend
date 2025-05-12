@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { AuthService, RegisterRequest, AvailabilityCheck } from '../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, catchError, map } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,8 @@ import { Observable, of, catchError, map } from 'rxjs';
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSelectModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
@@ -37,6 +39,13 @@ export class RegisterComponent implements OnInit {
   userTypes = [
     { value: 2, label: 'Cliente' },
     { value: 1, label: 'Trainer' }
+  ];
+
+  documentTypes = [
+    { value: 'DNI', label: 'DNI' },
+    { value: 'PASAPORTE', label: 'Pasaporte' },
+    { value: 'CEDULA', label: 'Cédula' },
+    { value: 'RUC', label: 'RUC' }
   ];
 
   constructor(
@@ -53,6 +62,7 @@ export class RegisterComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+      documentType: ['DNI', Validators.required],
       documentNumber: ['', [Validators.required, Validators.pattern('^[0-9]{8}[A-Za-z]$')]],
       type: [2, Validators.required]
     }, {
@@ -99,6 +109,7 @@ export class RegisterComponent implements OnInit {
             lastName: formValue.lastName,
             email: formValue.email,
             phoneNumber: formValue.phoneNumber,
+            documentType: formValue.documentType,
             documentNumber: formValue.documentNumber
           },
           type: formValue.type
