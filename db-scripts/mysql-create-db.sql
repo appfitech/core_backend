@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS person (
   first_name VARCHAR(125) NOT NULL,
   last_name VARCHAR(125) NOT NULL,
   document_number VARCHAR(80) NOT NULL UNIQUE,
+  document_type VARCHAR(30) NOT NULL DEFAULT 'DNI',
   phone_number VARCHAR(60) NOT NULL,
   email VARCHAR(60) NOT NULL
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

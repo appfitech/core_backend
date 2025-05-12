@@ -1,7 +1,6 @@
 package com.fitech.app.users.domain.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -25,6 +24,9 @@ public class Person {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "document_type", nullable = false)
+    private String documentType = "DNI";
 
     public Integer getId() {
         return id;
@@ -72,5 +74,13 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
     }
 }

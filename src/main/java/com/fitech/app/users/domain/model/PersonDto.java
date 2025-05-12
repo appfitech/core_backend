@@ -17,6 +17,8 @@ public class PersonDto implements Serializable {
     private String documentNumber;
     private String phoneNumber;
     private String email;
+    private String documentType = "DNI";
+
     public PersonDto() {
     }
 
@@ -75,6 +77,14 @@ public class PersonDto implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
     }
 
     public boolean hasDifferentDocumentNumber(String documentNumber){

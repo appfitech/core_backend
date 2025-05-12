@@ -5,6 +5,7 @@ export interface Person {
   email: string;
   phoneNumber: string;
   documentNumber: string;
+  documentType: string;
 }
 
 export interface User {
