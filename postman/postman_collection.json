@@ -40,11 +40,10 @@
               "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/auth/login",
+              "raw": "{{base_url}}/v1/app/auth/login",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -106,11 +105,10 @@
               "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"123456789\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/user",
+              "raw": "{{base_url}}/v1/app/user",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -131,11 +129,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/user?page=1&size=20",
+              "raw": "{{base_url}}/v1/app/user?page=1&size=20",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -166,11 +163,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/user/1",
+              "raw": "{{base_url}}/v1/app/user/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -200,11 +196,10 @@
               "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"Newadmin\",\n    \"person\": {\n        \"firstName\": \"John\",\n        \"lastName\": \"Doe\",\n        \"email\": \"john.doe@example.com\",\n        \"phoneNumber\": \"987654321\",\n        \"documentNumber\": \"12345678A\"\n    },\n    \"type\": 1\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/user/1",
+              "raw": "{{base_url}}/v1/app/user/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -226,11 +221,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/user/verify-email?token=your-verification-token",
+              "raw": "{{base_url}}/v1/app/user/verify-email?token=your-verification-token",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -271,11 +265,10 @@
               "raw": "{\n    \"name\": \"Kilogram\",\n    \"symbol\": \"kg\",\n    \"description\": \"Unit of mass\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/units-of-measure",
+              "raw": "{{base_url}}/v1/app/units-of-measure",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -296,11 +289,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/units-of-measure?page=1&size=20",
+              "raw": "{{base_url}}/v1/app/units-of-measure?page=1&size=20",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -331,11 +323,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/units-of-measure/1",
+              "raw": "{{base_url}}/v1/app/units-of-measure/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -365,11 +356,10 @@
               "raw": "{\n    \"name\": \"Kilogram Updated\",\n    \"symbol\": \"kg\",\n    \"description\": \"Updated unit of mass\"\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/units-of-measure/1",
+              "raw": "{{base_url}}/v1/app/units-of-measure/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -391,11 +381,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/units-of-measure/1",
+              "raw": "{{base_url}}/v1/app/units-of-measure/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -430,11 +419,10 @@
               "raw": "{\n    \"name\": \"Premium User\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/user-type",
+              "raw": "{{base_url}}/v1/app/user-type",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -455,11 +443,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/user-type",
+              "raw": "{{base_url}}/v1/app/user-type",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -480,11 +467,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/user-type/1",
+              "raw": "{{base_url}}/v1/app/user-type/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -514,11 +500,10 @@
               "raw": "{\n    \"name\": \"Updated User Type\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/user-type/1",
+              "raw": "{{base_url}}/v1/app/user-type/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -540,11 +525,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/user-type/all",
+              "raw": "{{base_url}}/v1/app/user-type/all",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -579,11 +563,10 @@
               "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"123456789\",\n    \"documentNumber\": \"12345678A\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/person",
+              "raw": "{{base_url}}/v1/app/person",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -604,11 +587,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/person?page=1&size=20",
+              "raw": "{{base_url}}/v1/app/person?page=1&size=20",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -639,11 +621,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/person/1",
+              "raw": "{{base_url}}/v1/app/person/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -673,11 +654,10 @@
               "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phoneNumber\": \"987654321\",\n    \"documentNumber\": \"12345678A\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/person/1",
+              "raw": "{{base_url}}/v1/app/person/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -712,11 +692,10 @@
               "raw": "{\n    \"name\": \"Weight Loss\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-type",
+              "raw": "{{base_url}}/v1/app/fitness-goal-type",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -737,11 +716,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-type",
+              "raw": "{{base_url}}/v1/app/fitness-goal-type",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -762,11 +740,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-type/1",
+              "raw": "{{base_url}}/v1/app/fitness-goal-type/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -796,11 +773,10 @@
               "raw": "{\n    \"name\": \"Updated Goal Type\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-type/1",
+              "raw": "{{base_url}}/v1/app/fitness-goal-type/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -822,11 +798,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-type/all",
+              "raw": "{{base_url}}/v1/app/fitness-goal-type/all",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -861,11 +836,10 @@
               "raw": "{\n    \"name\": \"In Progress\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-status",
+              "raw": "{{base_url}}/v1/app/fitness-goal-status",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -886,11 +860,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-status",
+              "raw": "{{base_url}}/v1/app/fitness-goal-status",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -911,11 +884,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-status/1",
+              "raw": "{{base_url}}/v1/app/fitness-goal-status/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -945,11 +917,10 @@
               "raw": "{\n    \"name\": \"Updated Status\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-status/1",
+              "raw": "{{base_url}}/v1/app/fitness-goal-status/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -971,11 +942,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/fitness-goal-status/all",
+              "raw": "{{base_url}}/v1/app/fitness-goal-status/all",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1010,11 +980,10 @@
               "raw": "{\n    \"name\": \"Weight\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/metric-type",
+              "raw": "{{base_url}}/v1/app/metric-type",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1035,11 +1004,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/metric-type",
+              "raw": "{{base_url}}/v1/app/metric-type",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1060,11 +1028,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/metric-type/1",
+              "raw": "{{base_url}}/v1/app/metric-type/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1094,11 +1061,10 @@
               "raw": "{\n    \"name\": \"Updated Metric Type\"\n}"
             },
             "url": {
-              "raw": "localhost:8081/v1/app/metric-type/1",
+              "raw": "{{base_url}}/v1/app/metric-type/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1120,11 +1086,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/metric-type/all",
+              "raw": "{{base_url}}/v1/app/metric-type/all",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1159,11 +1124,10 @@
               "raw": "{\n    \"metricTypeId\": 1,\n    \"unitOfMeasureId\": 1,\n    \"isDefault\": true\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-uom",
+              "raw": "{{base_url}}/v1/app/metric-type-uom",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1184,11 +1148,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-uom?page=1&size=20",
+              "raw": "{{base_url}}/v1/app/metric-type-uom?page=1&size=20",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1219,11 +1182,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-uom/1",
+              "raw": "{{base_url}}/v1/app/metric-type-uom/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1253,11 +1215,10 @@
               "raw": "{\n    \"metricTypeId\": 1,\n    \"unitOfMeasureId\": 1,\n    \"isDefault\": false\n}"
             },
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-uom/1",
+              "raw": "{{base_url}}/v1/app/metric-type-uom/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1279,11 +1240,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-uom/1",
+              "raw": "{{base_url}}/v1/app/metric-type-uom/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1305,11 +1265,10 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8081/v1/app/metric-type-uom/by-metric-type/1?page=1&size=20",
+              "raw": "{{base_url}}/v1/app/metric-type-uom/by-metric-type/1?page=1&size=20",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1370,11 +1329,10 @@
               ]
             },
             "url": {
-              "raw": "localhost:8081/v1/app/file-upload/user/1",
+              "raw": "{{base_url}}/v1/app/file-upload/user/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1407,11 +1365,10 @@
                   ]
                 },
                 "url": {
-                  "raw": "localhost:8081/v1/app/file-upload/user/1",
+                  "raw": "{{base_url}}/v1/app/file-upload/user/1",
                   "host": [
-                    "localhost"
+                    "{{base_url}}"
                   ],
-                  "port": "8081",
                   "path": [
                     "v1",
                     "app",
@@ -1447,11 +1404,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/file-upload/user/1",
+              "raw": "{{base_url}}/v1/app/file-upload/user/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1474,11 +1430,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/file-upload/user/1",
+              "raw": "{{base_url}}/v1/app/file-upload/user/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1501,11 +1456,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/file-upload/5",
+              "raw": "{{base_url}}/v1/app/file-upload/5",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1532,11 +1486,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/achievements/trainers/1",
+              "raw": "{{base_url}}/v1/app/achievements/trainers/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1568,11 +1521,10 @@
               }
             },
             "url": {
-              "raw": "localhost:8081/v1/app/achievements/trainers/1",
+              "raw": "{{base_url}}/v1/app/achievements/trainers/1",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1603,11 +1555,10 @@
                   }
                 },
                 "url": {
-                  "raw": "localhost:8081/v1/app/achievements/trainers/1",
+                  "raw": "{{base_url}}/v1/app/achievements/trainers/1",
                   "host": [
-                    "localhost"
+                    "{{base_url}}"
                   ],
-                  "port": "8081",
                   "path": [
                     "v1",
                     "app",
@@ -1652,11 +1603,10 @@
               }
             },
             "url": {
-              "raw": "localhost:8081/v1/app/achievements/11",
+              "raw": "{{base_url}}/v1/app/achievements/11",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
@@ -1678,11 +1628,10 @@
               }
             ],
             "url": {
-              "raw": "localhost:8081/v1/app/achievements/22",
+              "raw": "{{base_url}}/v1/app/achievements/22",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "8081",
               "path": [
                 "v1",
                 "app",
